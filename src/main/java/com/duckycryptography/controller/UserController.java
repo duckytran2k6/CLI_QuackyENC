@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+//Call the frontend local server
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api")
