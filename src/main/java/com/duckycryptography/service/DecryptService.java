@@ -4,8 +4,6 @@ import com.duckycryptography.core.Decrypt;
 import com.duckycryptography.core.DecryptedKeyIV;
 import com.duckycryptography.core.PasswordDeriveUtils;
 import com.duckycryptography.core.RSAUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
@@ -13,17 +11,10 @@ import java.io.File;
 import java.nio.file.Files;
 import java.security.PrivateKey;
 
-import static com.duckycryptography.service.LoadFilesService.loadFiles;
-
-
-@Service
 public class DecryptService {
     private final String TEMP_FILE_PATH = System.getProperty("java.io.tmpdir") + File.separator;
 
-    public File decryptWithPassword(MultipartFile encryptedFile, MultipartFile IV,MultipartFile salt, String password) throws Exception {
-        File encrFile = loadFiles(encryptedFile, "encrypted.enc");
-        File IVFile = loadFiles(IV, "IV.txt");
-        File saltFile = loadFiles(salt, "salt.txt");
+    public File decryptWithPassword(File encryptedFile, File IVFile,File saltFile, String password) throws Exception {
 
         byte[] saltToByte = Files.readAllBytes(saltFile.toPath());
         byte[] IVToByte = Files.readAllBytes(IVFile.toPath());
@@ -33,24 +24,21 @@ public class DecryptService {
         SecretKey aesKey = PasswordDeriveUtils.derivedFromPassword(password, saltToByte);
 
         File decryptedFile = new File(TEMP_FILE_PATH + "decrypted.txt");
-        Decrypt.FileDecrypt(aesKey, ivSpec, encrFile, decryptedFile);
+        Decrypt.FileDecrypt(aesKey, ivSpec, encryptedFile, decryptedFile);
 
         return decryptedFile;
     }
 
-    public File decryptWithKeyPair(MultipartFile encryptedFile, MultipartFile encryptedKeyIV, MultipartFile privateKeyFile) throws Exception {
-        File encrFile = loadFiles(encryptedFile, "encrypted.enc");
-        File encrKeyIV = loadFiles(encryptedKeyIV, "encrypted.key");
-        File privKeyFile = loadFiles(privateKeyFile, "private.key");
+    public File decryptWithKeyPair(File encryptedFile, File encryptedKeyIV, File privateKeyFile) throws Exception {
 
-        String encryptedKeyIVString = RSAUtils.loadEncryptedKeyIV(encrKeyIV);
+        String encryptedKeyIVString = RSAUtils.loadEncryptedKeyIV(encryptedKeyIV);
 
-        PrivateKey privKey = KeyPairService.loadPrivateKey(privKeyFile);
+        PrivateKey privKey = KeyPairService.loadPrivateKey(privateKeyFile);
 
         DecryptedKeyIV decryptedKeyIV = RSAUtils.decrypt(encryptedKeyIVString, privKey);
 
         File decryptedFile = new File(TEMP_FILE_PATH + "decrypted.txt");
-        Decrypt.FileDecrypt(decryptedKeyIV.getSecKey(), decryptedKeyIV.getIV(), encrFile, decryptedFile);
+        Decrypt.FileDecrypt(decryptedKeyIV.getSecKey(), decryptedKeyIV.getIV(), encryptedFile, decryptedFile);
 
         return decryptedFile;
 
