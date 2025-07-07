@@ -1,4 +1,14 @@
 package com.duckycryptography.CLI;
 
-public class EncryptCommand {
+import picocli.CommandLine;
+
+@CommandLine.Command(
+        name = "encrypt"
+)
+
+public class EncryptCommand implements Runnable {
+    @Override
+    public void run() {
+        System.out.println("Encrypting");
+    }
 }
