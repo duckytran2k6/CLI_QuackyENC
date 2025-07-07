@@ -3,7 +3,8 @@ package com.duckycryptography.CLI;
 import picocli.CommandLine;
 
 @CommandLine.Command (
-        name = "Decrypt-key-pair"
+        name = "Decrypt-key-pair",
+        description = "Decrypt a file using a generated key pair."
 )
 
 public class DecryptWithKeyPairCommand implements Runnable {

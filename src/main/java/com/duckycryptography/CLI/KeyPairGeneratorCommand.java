@@ -3,7 +3,8 @@ package com.duckycryptography.CLI;
 import picocli.CommandLine;
 
 @CommandLine.Command (
-        name = "KeyPairGeneration"
+        name = "KeyPairGeneration",
+        description = "Generate a key pair."
 )
 
 public class KeyPairGeneratorCommand implements Runnable {
