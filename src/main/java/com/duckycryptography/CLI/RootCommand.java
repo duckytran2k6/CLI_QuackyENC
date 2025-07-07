@@ -7,8 +7,10 @@ import picocli.CommandLine;
 @CommandLine.Command(
         name = "duckytool",
         subcommands = {
-                EncryptCommand.class,
-                DecryptCommand.class,
+                EncryptWithPasswordCommand.class,
+                EncryptWithKeyPairCommand.class,
+                DecryptWithKeyPairCommand.class,
+                DecryptWithKeyPairCommand.class,
                 KeyPairGeneratorCommand.class
         },
         description = "Tools for encryption"
