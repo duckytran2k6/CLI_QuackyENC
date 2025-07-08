@@ -5,7 +5,7 @@ import picocli.CommandLine;
 
 
 @CommandLine.Command(
-        name = "duckytool",
+        name = "ducky-tool",
         mixinStandardHelpOptions = true,
         subcommands = {
                 EncryptCommand.class,
