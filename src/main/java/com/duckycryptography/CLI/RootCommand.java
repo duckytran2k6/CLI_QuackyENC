@@ -7,6 +7,7 @@ import picocli.CommandLine;
 @CommandLine.Command(
         name = "ducky-tool",
         mixinStandardHelpOptions = true,
+        version = "DuckyCyTool 1.0",
         subcommands = {
                 EncryptCommand.class,
                 DecryptCommand.class,
@@ -18,15 +19,13 @@ import picocli.CommandLine;
 @Component
 public class RootCommand implements Runnable {
 
-    @CommandLine.Option(
-            names = "--option", description = "Here are the options."
-    )
-    String option;
-
     @Override
     public void run() {
-            CommandLine.usage(this, System.out);
+        System.out.println("Please enter --help to see available commands!");
     }
 
-
+    public static void main(String[] args) {
+        int exitCode = new CommandLine(new RootCommand()).execute(args);
+        System.exit(exitCode);
+    }
 }
