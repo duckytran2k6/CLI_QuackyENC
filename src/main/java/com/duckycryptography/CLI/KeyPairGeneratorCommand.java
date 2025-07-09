@@ -3,7 +3,7 @@ package com.duckycryptography.CLI;
 import picocli.CommandLine;
 
 @CommandLine.Command (
-        name = "KeyPairGeneration",
+        name = "-kpg",
         description = "Generate a key pair."
 )
 

@@ -3,7 +3,8 @@ package com.duckycryptography.CLI;
 import picocli.CommandLine;
 
 @CommandLine.Command (
-        name = "encrypt",
+        name = "-e",
+        mixinStandardHelpOptions = true,
         subcommands = {
                 EncryptWithPasswordCommand.class,
                 EncryptWithKeyPairCommand.class

@@ -3,7 +3,7 @@ package com.duckycryptography.CLI;
 import picocli.CommandLine;
 
 @CommandLine.Command (
-        name = "Decrypt-password",
+        name = "-d-p",
         description = "Decrypt a file using a provided password."
 )
 
