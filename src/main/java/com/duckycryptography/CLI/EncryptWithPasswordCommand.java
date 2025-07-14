@@ -5,6 +5,7 @@ import com.duckycryptography.service.PasswordChecker;
 import picocli.CommandLine;
 
 import java.io.File;
+import java.util.List;
 
 @CommandLine.Command (
         name = "-e-p",
@@ -12,16 +13,16 @@ import java.io.File;
 )
 
 public class EncryptWithPasswordCommand implements Runnable {
-    @CommandLine.Parameters(arity = "1", description = "Please upload the file to be encrypted!")
-    private File[] inputFileForEncryption;
+    @CommandLine.Parameters(arity = "1..", paramLabel = "FILES", description = "Please upload the file to be encrypted!")
+    private List<File> inputFiles;
 
-    @CommandLine.Option(names = {"-pw", "--password"}, description = "Please enter a password with a minimum of 8 characters!")
+    @CommandLine.Option(names = {"-pw", "--password"}, required = true, description = "Please enter a password with a minimum of 8 characters!")
     private String password;
 
     @Override
     public void run() {
-        if (inputFileForEncryption == null || inputFileForEncryption.length < 1) {
-            System.err.println("The provided file is empty/does not exist!");
+        if (inputFiles.isEmpty()) {
+            System.err.println("The provided file(s) is empty/does not exist!");
             return;
         }
 
@@ -30,13 +31,16 @@ public class EncryptWithPasswordCommand implements Runnable {
             return;
         }
 
-        File fileToEncrypt = inputFileForEncryption[0];
 
-        EncryptService eP = new EncryptService();
-        try {
-            eP.encryptDataWithPassword(fileToEncrypt, password);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        for (File inputFile : inputFiles) {
+            if (!(inputFile == null || !inputFile.exists())) {
+                EncryptService eP = new EncryptService();
+                try {
+                    eP.encryptDataWithPassword((File) inputFiles, password);
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                }
+            }
         }
     }
 }

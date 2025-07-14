@@ -3,6 +3,7 @@ import com.duckycryptography.service.EncryptService;
 import picocli.CommandLine;
 
 import java.io.File;
+import java.util.List;
 
 @CommandLine.Command (
         name = "-e-kp",
@@ -11,26 +12,28 @@ import java.io.File;
 
 public class EncryptWithKeyPairCommand implements Runnable {
 
-    @CommandLine.Parameters(arity = "2", description = "Please upload the plain text file and the public key!")
-    private File[] files;
+    @CommandLine.Parameters(arity = "1..", paramLabel = "FILES", description = "Please upload the files to be encrypted!")
+    private List<File> inputFiles;
+
+    @CommandLine.Option(names = {"-pk", "--publicKey"}, required = true, description = "Upload the valid public key!")
+    private File publicKeyFile;
 
     @Override
     public void run() {
-        if (files == null || files.length < 2) {
+        if (inputFiles.isEmpty()) {
             System.err.println("Please upload the files as specified above!");
             return;
         }
-        File inputFile = files[0];
-        File publicKeyFile = files[1];
 
-        System.out.println("inputFile: " + inputFile.getAbsolutePath());
-        System.out.println("publicKeyFile: " + publicKeyFile.getAbsolutePath());
-
-        EncryptService eKP = new EncryptService();
-        try {
-            eKP.encryptDataWithKeyPair(inputFile, publicKeyFile);
-        } catch (Exception e) {
-           System.err.println(e.getMessage());
+        for (File inputFile : inputFiles) {
+            if (!(inputFile == null || !inputFile.exists())) {
+                    EncryptService eKP = new EncryptService();
+                    try {
+                        eKP.encryptDataWithKeyPair(inputFile, publicKeyFile);
+                    } catch (Exception e) {
+                        System.err.println(e.getMessage());
+                    }
+                }
+            }
         }
     }
-}
