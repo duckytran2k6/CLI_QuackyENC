@@ -1,6 +1,7 @@
 package com.duckycryptography.CLI;
 
 import com.duckycryptography.service.EncryptService;
+import com.duckycryptography.service.PasswordChecker;
 import picocli.CommandLine;
 
 import java.io.File;
@@ -15,7 +16,7 @@ public class EncryptWithPasswordCommand implements Runnable {
     private File[] inputFileForEncryption;
 
     @CommandLine.Option(names = {"-pw", "--password"}, description = "Please enter a password with a minimum of 8 characters!")
-    private char[] inputPasswordForEncryption;
+    private String password;
 
     @Override
     public void run() {
@@ -24,13 +25,12 @@ public class EncryptWithPasswordCommand implements Runnable {
             return;
         }
 
-        if (inputPasswordForEncryption == null || inputPasswordForEncryption.length <= 8) {
+        if (PasswordChecker.validPassword(password)) {
             System.err.println("Please provide a valid password!");
             return;
         }
 
         File fileToEncrypt = inputFileForEncryption[0];
-        String password = new String(inputPasswordForEncryption);
 
         EncryptService eP = new EncryptService();
         try {

@@ -1,6 +1,7 @@
 package com.duckycryptography.CLI;
 
 import com.duckycryptography.service.DecryptService;
+import com.duckycryptography.service.PasswordChecker;
 import picocli.CommandLine;
 
 import java.io.File;
@@ -15,7 +16,7 @@ public class DecryptWithPasswordCommand implements Runnable {
     private File[] inputFileForDecryption;
 
     @CommandLine.Option(names = {"-pw", "password"}, description = "Please enter the correct password!")
-    private char[] inputPasswordForDecryption;
+    private String password;
 
     @Override
     public void run() {
@@ -24,7 +25,7 @@ public class DecryptWithPasswordCommand implements Runnable {
             return;
         }
 
-        if (inputPasswordForDecryption == null || inputPasswordForDecryption.length <= 8) {
+        if (PasswordChecker.validPassword(password)) {
             System.err.println("Please provide a valid password!");
             return;
         }
@@ -32,7 +33,6 @@ public class DecryptWithPasswordCommand implements Runnable {
         File fileToDecrypt = inputFileForDecryption[0];
         File IV = inputFileForDecryption[1];
         File salt = inputFileForDecryption[2];
-        String password = new String(inputPasswordForDecryption);
 
         DecryptService dP = new DecryptService();
         try {
