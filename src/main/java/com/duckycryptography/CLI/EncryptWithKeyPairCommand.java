@@ -16,7 +16,7 @@ public class EncryptWithKeyPairCommand implements Runnable {
 
     @Override
     public void run() {
-        if (files == null || files.length != 2) {
+        if (files == null || files.length < 2) {
             System.err.println("Please upload the files as specified above!");
             return;
         }

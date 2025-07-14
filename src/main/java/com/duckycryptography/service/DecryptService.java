@@ -14,7 +14,7 @@ import java.security.PrivateKey;
 public class DecryptService {
     private final String TEMP_FILE_PATH = System.getProperty("java.io.tmpdir") + File.separator;
 
-    public File decryptWithPassword(File encryptedFile, File IVFile,File saltFile, String password) throws Exception {
+    public File decryptWithPassword(File encryptedFile, File IVFile, File saltFile, String password) throws Exception {
 
         byte[] saltToByte = Files.readAllBytes(saltFile.toPath());
         byte[] IVToByte = Files.readAllBytes(IVFile.toPath());

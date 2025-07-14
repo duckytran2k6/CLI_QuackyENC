@@ -20,17 +20,13 @@ public class DecryptWithKeyPairCommand implements Runnable {
     @Override
     public void run() {
 
-        if (files == null || files.length != 3) {
+        if (files == null || files.length < 3) {
             System.err.println("Please upload the files as specified above!");
             return;
         }
         File inputFile = files[0];
         File keyIVFile = files[1];
         File privateKeyFile = files[2];
-
-        System.out.println("inputFile: " + inputFile.getAbsolutePath());
-        System.out.println("keyIVFile: " + keyIVFile.getAbsolutePath());
-        System.out.println("privateKeyFile: " + privateKeyFile.getAbsolutePath());
 
         DecryptService dKP = new DecryptService();
         try {

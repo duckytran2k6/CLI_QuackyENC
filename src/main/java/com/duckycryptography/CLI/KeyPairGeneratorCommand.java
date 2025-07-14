@@ -1,5 +1,6 @@
 package com.duckycryptography.CLI;
 
+import com.duckycryptography.service.KeyPairService;
 import picocli.CommandLine;
 
 @CommandLine.Command (
@@ -10,6 +11,12 @@ import picocli.CommandLine;
 public class KeyPairGeneratorCommand implements Runnable {
     @Override
     public void run() {
-        System.out.println("Generating key pairs...");
+        KeyPairService kPG = new KeyPairService();
+        try {
+            kPG.generateKeyPair();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
     }
 }
