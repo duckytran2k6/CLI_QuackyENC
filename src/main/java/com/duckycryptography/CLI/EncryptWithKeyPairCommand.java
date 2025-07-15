@@ -13,19 +13,23 @@ import java.util.List;
 public class EncryptWithKeyPairCommand implements Runnable {
 
     @CommandLine.Parameters(arity = "1..", paramLabel = "FILES", description = "Please upload the files to be encrypted!")
-    private List<File> inputFiles;
+    private List<File> files;
 
-    @CommandLine.Option(names = {"-pk", "--publicKey"}, required = true, description = "Upload the valid public key!")
+    @CommandLine.Option(names = {"-pubK", "--publicKey"}, required = true, description = "Upload the valid public key!")
     private File publicKeyFile;
 
     @Override
     public void run() {
-        if (inputFiles.isEmpty()) {
+        if (files.isEmpty()) {
             System.err.println("Please upload the files as specified above!");
             return;
         }
 
-        for (File inputFile : inputFiles) {
+        if (publicKeyFile == null || !publicKeyFile.exists()) {
+            System.err.println("The public key file is empty/does not exist!");
+        }
+
+        for (File inputFile : files) {
             if (!(inputFile == null || !inputFile.exists())) {
                     EncryptService eKP = new EncryptService();
                     try {

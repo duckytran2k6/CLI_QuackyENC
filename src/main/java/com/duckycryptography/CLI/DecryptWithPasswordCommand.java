@@ -15,7 +15,7 @@ public class DecryptWithPasswordCommand implements Runnable {
     @CommandLine.Parameters(arity = "3", description = "Please upload the encrypted file, IV, and salt!")
     private File[] inputFileForDecryption;
 
-    @CommandLine.Option(names = {"-pw", "password"}, description = "Please enter the correct password!")
+    @CommandLine.Option(names = {"-pw", "password"}, required = true, description = "Please enter the correct password!")
     private String password;
 
     @Override
