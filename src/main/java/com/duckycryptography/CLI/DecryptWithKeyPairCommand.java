@@ -1,6 +1,7 @@
 package com.duckycryptography.CLI;
 
 import com.duckycryptography.service.DecryptService;
+import com.duckycryptography.service.FileValidityService;
 import picocli.CommandLine;
 
 import java.io.File;
@@ -31,18 +32,12 @@ public class DecryptWithKeyPairCommand implements Runnable {
             return;
         }
 
-        if (keyIVFile == null || !keyIVFile.exists()) {
-            System.err.println("The key IV file is empty/does not exist!");
-            return;
-        }
-
-        if (privateKeyFile == null || !privateKeyFile.exists()) {
-            System.err.println("The private key file is empty/does not exist!");
+        if (!FileValidityService.checkFile(keyIVFile, "keyIVFile") || !FileValidityService.checkFile(privateKeyFile, "privateKeyFile")) {
             return;
         }
 
         for (File inputFile : files) {
-            if (!(inputFile == null || !inputFile.exists())) {
+            if (FileValidityService.checkFile(inputFile, "inputFile")) {
                 DecryptService dKP = new DecryptService();
                 try {
                     dKP.decryptWithKeyPair(inputFile, keyIVFile, privateKeyFile);

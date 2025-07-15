@@ -1,6 +1,7 @@
 package com.duckycryptography.CLI;
 
 import com.duckycryptography.service.DecryptService;
+import com.duckycryptography.service.FileValidityService;
 import com.duckycryptography.service.PasswordChecker;
 import picocli.CommandLine;
 
@@ -32,23 +33,17 @@ public class DecryptWithPasswordCommand implements Runnable {
             return;
         }
 
-        if (IV == null || !IV.exists()) {
-            System.err.println("The IV file is empty/does not exist!");
+        if (!FileValidityService.checkFile(IV, "IV") || !FileValidityService.checkFile(salt, "salt")) {
             return;
         }
 
-        if (salt == null || !salt.exists()) {
-            System.err.println("The salt file is empty/does not exist!");
-            return;
-        }
-
-        if (PasswordChecker.validPassword(password)) {
+        if (!PasswordChecker.validPassword(password)) {
             System.err.println("Please provide a valid password!");
             return;
         }
 
         for (File inputFile : files) {
-            if (!(inputFile == null || !inputFile.exists())) {
+            if (FileValidityService.checkFile(inputFile, "inputFile")) {
                 DecryptService dP = new DecryptService();
                 try {
                     dP.decryptWithPassword(inputFile, IV, salt, password);
