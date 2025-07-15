@@ -1,14 +1,13 @@
 package com.duckycryptography.CLI;
 
 import com.duckycryptography.service.DecryptService;
-import com.duckycryptography.service.EncryptService;
 import picocli.CommandLine;
 
 import java.io.File;
 import java.util.List;
 
 @CommandLine.Command (
-        name = "-d-kp",
+        name = "-d-keypair",
         description = "Decrypt a file using a generated key pair."
 )
 
