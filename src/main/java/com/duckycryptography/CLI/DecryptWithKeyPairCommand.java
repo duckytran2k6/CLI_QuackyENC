@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.List;
 
 @CommandLine.Command (
-        name = "-d-keypair",
+        name = "-d-kp",
         description = "Decrypt a file using a generated key pair."
 )
 

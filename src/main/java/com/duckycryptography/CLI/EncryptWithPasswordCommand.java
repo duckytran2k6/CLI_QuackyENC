@@ -8,7 +8,7 @@ import java.io.File;
 import java.util.List;
 
 @CommandLine.Command (
-        name = "-e-p",
+        name = "-e-pass",
         description = "Encrypt a file using a provided password."
 )
 
