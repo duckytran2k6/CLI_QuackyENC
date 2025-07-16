@@ -1,8 +1,7 @@
 package com.duckycryptography.CLI;
 
 import com.duckycryptography.service.EncryptService;
-import com.duckycryptography.service.FileValidityService;
-import com.duckycryptography.service.PasswordChecker;
+import com.duckycryptography.service.ValidityCheckerService;
 import picocli.CommandLine;
 
 import java.io.File;
@@ -22,18 +21,19 @@ public class EncryptWithPasswordCommand implements Runnable {
 
     @Override
     public void run() {
-        if (FileValidityService.checkListLimit(files)) {
+        if (!ValidityCheckerService.checkListLimit(files)) {
             return;
         }
 
-        if (!PasswordChecker.validPassword(password)) {
+        if (!ValidityCheckerService.validPassword(password)) {
             System.err.println("Please provide a valid password!");
             return;
         }
 
 
-        for (File inputFile : files) {
-            if (FileValidityService.checkFile(inputFile, "inputFile")) {
+        for (int i = 0; i < files.size(); i++) {
+            File inputFile = files.get(i);
+            if (ValidityCheckerService.checkFile(inputFile, "File #" + (i + 1) + " (" + (inputFile != null ? inputFile.getName() : "unknown") + ")")) {
                 EncryptService eP = new EncryptService();
                 try {
                     eP.encryptDataWithPassword(inputFile, password);

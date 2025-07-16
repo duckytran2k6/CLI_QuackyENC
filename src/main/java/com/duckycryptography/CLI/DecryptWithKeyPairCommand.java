@@ -1,7 +1,7 @@
 package com.duckycryptography.CLI;
 
 import com.duckycryptography.service.DecryptService;
-import com.duckycryptography.service.FileValidityService;
+import com.duckycryptography.service.ValidityCheckerService;
 import picocli.CommandLine;
 
 import java.io.File;
@@ -26,16 +26,16 @@ public class DecryptWithKeyPairCommand implements Runnable {
 
     @Override
     public void run() {
-        if (FileValidityService.checkListLimit(files)) {
+        if (!ValidityCheckerService.checkListLimit(files)) {
             return;
         }
 
-        if (!FileValidityService.checkFile(keyIVFile, "keyIVFile") || !FileValidityService.checkFile(privateKeyFile, "privateKeyFile")) {
+        if (!ValidityCheckerService.checkFile(keyIVFile, "keyIVFile") || !ValidityCheckerService.checkFile(privateKeyFile, "privateKeyFile")) {
             return;
         }
 
         for (File inputFile : files) {
-            if (FileValidityService.checkFile(inputFile, "inputFile")) {
+            if (ValidityCheckerService.checkFile(inputFile, "inputFile")) {
                 DecryptService dKP = new DecryptService();
                 try {
                     dKP.decryptWithKeyPair(inputFile, keyIVFile, privateKeyFile);

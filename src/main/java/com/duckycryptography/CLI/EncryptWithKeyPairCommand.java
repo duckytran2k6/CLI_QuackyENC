@@ -1,6 +1,6 @@
 package com.duckycryptography.CLI;
 import com.duckycryptography.service.EncryptService;
-import com.duckycryptography.service.FileValidityService;
+import com.duckycryptography.service.ValidityCheckerService;
 import picocli.CommandLine;
 
 import java.io.File;
@@ -21,19 +21,17 @@ public class EncryptWithKeyPairCommand implements Runnable {
 
     @Override
     public void run() {
-        if (FileValidityService.checkListLimit(files)) {
+        if (!ValidityCheckerService.checkListLimit(files)) {
             return;
         }
 
-        if (!FileValidityService.checkFile(publicKeyFile, "publicKey")) {
+        if (!ValidityCheckerService.checkFile(publicKeyFile, "publicKey")) {
             return;
         }
 
         for (int i = 0; i < files.size(); i++) {
             File inputFile = files.get(i);
-            if (!FileValidityService.checkFile(inputFile, "File #" + (i + 1) + " (" + (inputFile != null ? inputFile.getName() : "unknown") + ")")) {
-                return;
-            } else {
+            if (ValidityCheckerService.checkFile(inputFile, "File #" + (i + 1) + " (" + (inputFile != null ? inputFile.getName() : "unknown") + ")")) {
                 EncryptService eKP = new EncryptService();
                 try {
                     eKP.encryptDataWithKeyPair(inputFile, publicKeyFile);

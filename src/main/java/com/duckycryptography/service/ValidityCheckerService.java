@@ -3,7 +3,7 @@ package com.duckycryptography.service;
 import java.io.File;
 import java.util.List;
 
-public class FileValidityService {
+public class ValidityCheckerService {
     private final static long MAX_FILE_SIZE = 100 * 1024 * 1024; // 100 MB
     private final static int MAX_FILES = 20;
 
@@ -31,5 +31,9 @@ public class FileValidityService {
             return false;
         }
         return true;
+    }
+
+    public static boolean validPassword(String password) {
+        return (password.length() < 8 || password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).+$"));
     }
 }
