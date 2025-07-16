@@ -30,7 +30,6 @@ public class EncryptWithPasswordCommand implements Runnable {
             return;
         }
 
-
         for (int i = 0; i < files.size(); i++) {
             File inputFile = files.get(i);
             if (ValidityCheckerService.checkFile(inputFile, "File #" + (i + 1) + " (" + (inputFile != null ? inputFile.getName() : "unknown") + ")")) {

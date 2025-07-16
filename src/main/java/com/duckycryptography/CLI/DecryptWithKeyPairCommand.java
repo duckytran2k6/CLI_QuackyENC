@@ -34,8 +34,9 @@ public class DecryptWithKeyPairCommand implements Runnable {
             return;
         }
 
-        for (File inputFile : files) {
-            if (ValidityCheckerService.checkFile(inputFile, "inputFile")) {
+        for (int i = 0; i < files.size(); i++) {
+            File inputFile = files.get(i);
+            if (ValidityCheckerService.checkFile(inputFile, "File #" + (i + 1) + " (" + (inputFile != null ? inputFile.getName() : "unknown") + ")")) {
                 DecryptService dKP = new DecryptService();
                 try {
                     dKP.decryptWithKeyPair(inputFile, keyIVFile, privateKeyFile);
