@@ -72,7 +72,7 @@
 					<generateGitPropertiesFile>true</generateGitPropertiesFile>
 					<format>properties</format>
 					<failOnNoGitDirectory>false</failOnNoGitDirectory>
-					<prefix>git</prefix> <!-- Output file: git.properties -->
+					<prefix>git</prefix>
 				</configuration>
 			</plugin>
 
