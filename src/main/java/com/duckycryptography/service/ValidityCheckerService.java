@@ -26,7 +26,13 @@ public class ValidityCheckerService {
     }
 
     public static boolean checkFile(File file, String name) {
-        if (file == null || !file.exists() || !file.isFile()) {
+        String fileName = file.getName();
+        if (!fileName.endsWith(".txt")) {
+            System.err.println("The file " + file.getName() + " is not a text file");
+            return false;
+        }
+
+        if (file.length() == 0 || !file.exists() || !file.isFile()) {
             System.err.println("The " + name + " file is empty/does not exist!");
             return false;
         }

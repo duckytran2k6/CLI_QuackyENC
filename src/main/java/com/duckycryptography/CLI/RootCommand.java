@@ -35,12 +35,12 @@ public class RootCommand implements Runnable {
         }
 
         if (version) {
-            System.out.println("Ducky-tool v2.3.7");
+            System.out.println("Ducky-tool v2.4.9");
             return;
         }
 
         if (limits) {
-            System.out.println("\uD83D\uDCE6 Min-Max Files: 1-20\n \uD83D\uDCC1 Min-Max File Size: 1-100 MB");
+            System.out.println("The file type MUST BE a text file (.txt)\n Min-Max Files: 1-20\n Min-Max File Size: 1-100 MB");
             return;
         }
 
