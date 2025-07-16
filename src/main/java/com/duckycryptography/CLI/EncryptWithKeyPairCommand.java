@@ -7,8 +7,8 @@ import java.io.File;
 import java.util.List;
 
 @CommandLine.Command (
-        name = "-e-kp",
-        description = "Encrypt a file using a generated key pair."
+        name = "-kp",
+        description = "Encryption using a generated key pair!"
 )
 
 public class EncryptWithKeyPairCommand implements Runnable {

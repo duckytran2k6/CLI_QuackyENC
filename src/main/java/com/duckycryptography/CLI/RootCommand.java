@@ -21,7 +21,7 @@ public class RootCommand implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Please enter --help to see available commands!");
+        System.out.println("Please enter -h or --help to see available commands!");
     }
 
     public static void main(String[] args) {

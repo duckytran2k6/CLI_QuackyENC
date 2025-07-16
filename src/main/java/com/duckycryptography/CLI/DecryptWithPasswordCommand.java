@@ -8,8 +8,8 @@ import java.io.File;
 import java.util.List;
 
 @CommandLine.Command (
-        name = "-d-pass",
-        description = "Decrypt a file using a provided password."
+        name = "-pass",
+        description = "Decryption using a provided password!"
 )
 
 public class DecryptWithPasswordCommand implements Runnable {

@@ -4,7 +4,6 @@ import picocli.CommandLine;
 
 @CommandLine.Command (
         name = "-e",
-        mixinStandardHelpOptions = true,
         subcommands = {
                 EncryptWithPasswordCommand.class,
                 EncryptWithKeyPairCommand.class
@@ -15,6 +14,7 @@ import picocli.CommandLine;
 public class EncryptCommand implements Runnable {
     @Override
     public void run() {
-        System.out.println("Please choose either 'encrypt-password' or 'encrypt-key-pair'.");
+        System.out.println("Please use the following commands for more information:\n -e-pass: encrypt using password.\n -e-kp: encrypt using key pair.");
     }
+
 }

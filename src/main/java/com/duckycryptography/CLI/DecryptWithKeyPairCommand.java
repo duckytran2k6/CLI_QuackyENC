@@ -8,8 +8,8 @@ import java.io.File;
 import java.util.List;
 
 @CommandLine.Command (
-        name = "-d-kp",
-        description = "Decrypt a file using a generated key pair."
+        name = "-kp",
+        description = "Decryption using a generated key pair!"
 )
 
 public class DecryptWithKeyPairCommand implements Runnable {
