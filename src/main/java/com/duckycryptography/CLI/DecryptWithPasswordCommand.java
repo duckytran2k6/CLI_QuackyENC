@@ -28,8 +28,7 @@ public class DecryptWithPasswordCommand implements Runnable {
 
     @Override
     public void run() {
-        if (files.isEmpty()) {
-            System.err.println("Please provide a file to encrypt!");
+        if (FileValidityService.checkListLimit(files)) {
             return;
         }
 

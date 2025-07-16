@@ -15,15 +15,14 @@ import java.util.List;
 
 public class EncryptWithPasswordCommand implements Runnable {
     @CommandLine.Parameters(arity = "1..", paramLabel = "FILES", description = "Please upload the file to be encrypted!")
-    private List<File> inputFiles;
+    private List<File> files;
 
     @CommandLine.Option(names = {"-pw", "--password"}, required = true, description = "Please enter a password with a minimum of 8 characters!")
     private String password;
 
     @Override
     public void run() {
-        if (inputFiles.isEmpty()) {
-            System.err.println("The provided file(s) is empty/does not exist!");
+        if (FileValidityService.checkListLimit(files)) {
             return;
         }
 
@@ -33,11 +32,11 @@ public class EncryptWithPasswordCommand implements Runnable {
         }
 
 
-        for (File inputFile : inputFiles) {
+        for (File inputFile : files) {
             if (FileValidityService.checkFile(inputFile, "inputFile")) {
                 EncryptService eP = new EncryptService();
                 try {
-                    eP.encryptDataWithPassword((File) inputFiles, password);
+                    eP.encryptDataWithPassword(inputFile, password);
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                 }

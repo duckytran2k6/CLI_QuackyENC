@@ -26,9 +26,7 @@ public class DecryptWithKeyPairCommand implements Runnable {
 
     @Override
     public void run() {
-
-        if (files.isEmpty()) {
-            System.err.println("Please upload the files as specified above!");
+        if (FileValidityService.checkListLimit(files)) {
             return;
         }
 

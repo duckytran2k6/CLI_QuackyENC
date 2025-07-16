@@ -21,8 +21,7 @@ public class EncryptWithKeyPairCommand implements Runnable {
 
     @Override
     public void run() {
-        if (files.isEmpty()) {
-            System.err.println("Please upload the files as specified above!");
+        if (FileValidityService.checkListLimit(files)) {
             return;
         }
 
@@ -30,15 +29,18 @@ public class EncryptWithKeyPairCommand implements Runnable {
             return;
         }
 
-        for (File inputFile : files) {
-            if (FileValidityService.checkFile(inputFile, "inputFile")) {
-                    EncryptService eKP = new EncryptService();
-                    try {
-                        eKP.encryptDataWithKeyPair(inputFile, publicKeyFile);
-                    } catch (Exception e) {
-                        System.err.println(e.getMessage());
-                    }
+        for (int i = 0; i < files.size(); i++) {
+            File inputFile = files.get(i);
+            if (!FileValidityService.checkFile(inputFile, "File #" + (i + 1) + " (" + (inputFile != null ? inputFile.getName() : "unknown") + ")")) {
+                return;
+            } else {
+                EncryptService eKP = new EncryptService();
+                try {
+                    eKP.encryptDataWithKeyPair(inputFile, publicKeyFile);
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
                 }
             }
         }
     }
+}
