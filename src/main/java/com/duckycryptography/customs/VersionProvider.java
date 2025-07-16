@@ -10,9 +10,9 @@ public class VersionProvider implements CommandLine.IVersionProvider {
     @Override
     public String[] getVersion() {
         Properties props = new Properties();
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("versions.properties")) {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("git.properties")) {
             props.load(inputStream);
-            return new String[]{"DuckyTool v" + props.getProperty("version")};
+            return new String[]{"DuckyTool v" + props.getProperty("Version")};
         } catch (IOException e) {
             return new String[]{"DuckyTool version info not available"};
         }
