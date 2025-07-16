@@ -14,7 +14,7 @@ import picocli.CommandLine;
 public class EncryptCommand implements Runnable {
     @Override
     public void run() {
-        System.out.println("Please use the following commands for more information:\n -e-pass: encrypt using password.\n -e-kp: encrypt using key pair.");
+        System.out.println("Please use the following commands for more information:\n -e -pass: encrypt using password.\n -e -kp: encrypt using key pair.");
     }
 
 }

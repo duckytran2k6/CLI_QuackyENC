@@ -15,6 +15,6 @@ import picocli.CommandLine;
 public class DecryptCommand implements Runnable {
     @Override
     public void run() {
-        System.out.println("Please choose either 'decrypt-password' or 'decrypt-key-pair'.");
+        System.out.println("Please use the following commands for more information:\n -d -pass: decrypt using password.\n -d -kp: decrypt using key pair.");
     }
 }

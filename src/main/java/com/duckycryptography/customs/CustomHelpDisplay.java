@@ -13,6 +13,5 @@ public class CustomHelpDisplay {
         System.out.println("  -e                Encrypt mode using either password or key pair method.");
         System.out.println("  -d                Decrypt mode using either password or key pair method.");
         System.out.println("  -kpg              Generate a key pair.");
-        System.out.println("Run `ducky-tool <command> --help` for more information on a command.");
     }
 }
