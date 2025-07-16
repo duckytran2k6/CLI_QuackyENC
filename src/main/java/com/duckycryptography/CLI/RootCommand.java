@@ -1,14 +1,12 @@
 package com.duckycryptography.CLI;
 
 import com.duckycryptography.customs.CustomHelpDisplay;
-import com.duckycryptography.customs.VersionProvider;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine;
 
 
 @CommandLine.Command(
         name = "ducky-tool",
-        versionProvider = VersionProvider.class,
         subcommands = {
                 EncryptCommand.class,
                 DecryptCommand.class,
@@ -37,15 +35,7 @@ public class RootCommand implements Runnable {
         }
 
         if (version) {
-            try {
-                CommandLine.IVersionProvider provider = new VersionProvider();
-                String[] versionInfo = provider.getVersion();
-                for (String line : versionInfo) {
-                    System.out.println(line);
-                }
-            } catch (Exception e) {
-                System.err.println("Failed to get version: " + e.getMessage());
-            }
+            System.out.println("Duckytool v1.0.0");
             return;
         }
 
