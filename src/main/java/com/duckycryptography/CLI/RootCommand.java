@@ -1,6 +1,7 @@
 package com.duckycryptography.CLI;
 
 import com.duckycryptography.customs.CustomHelpDisplay;
+import com.duckycryptography.customs.CustomInfoDisplay;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine;
 
@@ -24,6 +25,9 @@ public class RootCommand implements Runnable {
     @CommandLine.Option(names = {"-v", "--version"}, description = "Information about the current tool's version!")
     boolean version;
 
+    @CommandLine.Option(names = {"-info", "--information"}, description = "Information and requirements for the tool!")
+    boolean information;
+
     @CommandLine.Option(names = {"-lim", "--limits"}, description = "Information about the default file and size limits!")
     boolean limits;
 
@@ -35,7 +39,12 @@ public class RootCommand implements Runnable {
         }
 
         if (version) {
-            System.out.println("Ducky-tool v2.4.9");
+            System.out.println("Ducky-tool v2.5.9");
+            return;
+        }
+
+        if (information) {
+            CustomInfoDisplay.displayInfo();
             return;
         }
 
