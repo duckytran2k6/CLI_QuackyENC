@@ -13,12 +13,12 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 public class KeyPairService {
-    private final String TEMP_FILE_PATH = System.getProperty("java.io.tmpdir") + File.separator;
+    private final File downloadDir = DownloadFilesService.getDownloadDir();
 
     public void generateKeyPair() throws Exception{
         KeyPair keyPair = RSAUtils.generateKeyPairs();
-        File publicKeyFile = new File(TEMP_FILE_PATH + "public.key");
-        File privateKeyFile = new File(TEMP_FILE_PATH + "private.key");
+        File publicKeyFile = new File(downloadDir, "public.key");
+        File privateKeyFile = new File(downloadDir, "private.key");
         saveKeyPair(keyPair, publicKeyFile, privateKeyFile);
     }
 

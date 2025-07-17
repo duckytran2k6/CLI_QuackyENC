@@ -31,24 +31,9 @@ public class ZipFileService {
         }
     }
 
-    public static File getDownloadDir() {
-        String userHome = System.getProperty("user.home");
-        String os = System.getProperty("os.name").toLowerCase();
-
-        if (os.contains("win")) {
-            return new File(userHome, "Downloads");
-        } else if (os.contains("mac")) {
-            return new File(userHome, "Downloads");
-        } else if (os.contains("nux") || os.contains("nix") || os.contains("aix")) {
-            return new File(userHome, "Downloads");
-        } else {
-            return new File(userHome);
-        }
-    }
-
     public static File prepareZipFile(File... filesToZip) throws Exception {
         String zipFileName = "encrypted.zip";
-        File downloadDir = getDownloadDir();
+        File downloadDir = DownloadFilesService.getDownloadDir();
         File zipFile = new File(downloadDir, zipFileName);
 
         List<File>  filesToZipList = Arrays.asList(filesToZip);

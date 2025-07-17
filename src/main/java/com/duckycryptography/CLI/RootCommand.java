@@ -39,7 +39,7 @@ public class RootCommand implements Runnable {
         }
 
         if (version) {
-            System.out.println("Ducky-tool v2.6.9");
+            System.out.println("Ducky-tool v2.7.9");
             return;
         }
 

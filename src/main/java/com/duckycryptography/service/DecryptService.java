@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.security.PrivateKey;
 
 public class DecryptService {
-    private final String TEMP_FILE_PATH = System.getProperty("java.io.tmpdir") + File.separator;
+    private final File downloadDir = DownloadFilesService.getDownloadDir();
 
     public File decryptWithPassword(File encryptedFile, File IVFile, File saltFile, String password) throws Exception {
 
@@ -23,7 +23,7 @@ public class DecryptService {
 
         SecretKey aesKey = PasswordDeriveUtils.derivedFromPassword(password, saltToByte);
 
-        File decryptedFile = new File(TEMP_FILE_PATH + "decrypted.txt");
+        File decryptedFile = new File(downloadDir, "decrypted.txt");
         Decrypt.FileDecrypt(aesKey, ivSpec, encryptedFile, decryptedFile);
 
         return decryptedFile;
@@ -37,7 +37,7 @@ public class DecryptService {
 
         DecryptedKeyIV decryptedKeyIV = RSAUtils.decrypt(encryptedKeyIVString, privKey);
 
-        File decryptedFile = new File(TEMP_FILE_PATH + "decrypted.txt");
+        File decryptedFile = new File(downloadDir, "decrypted.txt");
         Decrypt.FileDecrypt(decryptedKeyIV.getSecKey(), decryptedKeyIV.getIV(), encryptedFile, decryptedFile);
 
         return decryptedFile;
