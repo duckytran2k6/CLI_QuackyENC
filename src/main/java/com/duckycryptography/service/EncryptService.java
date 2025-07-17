@@ -9,6 +9,7 @@ import javax.crypto.spec.GCMParameterSpec;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.security.PublicKey;
+import java.util.Objects;
 import java.util.UUID;
 
 public class EncryptService {
@@ -18,64 +19,90 @@ public class EncryptService {
     public File encryptDataWithPassword(File file, String password) throws Exception {
 
         String sessionID = UUID.randomUUID().toString();
-        File tempFile = new File(TEMP_FILE_PATH + sessionID);
+        File sessionDir = new File(TEMP_FILE_PATH + sessionID + File.separator);
 //          Create the new file directory along with it.
-        tempFile.mkdirs();
+        sessionDir.mkdirs();
 
-        byte[] salt = Encrypt.generateSalt();
-        SecretKey aesKey = PasswordDeriveUtils.derivedFromPassword(password, salt);
-        GCMParameterSpec IV = Encrypt.genIV();
+        File encryptedFile = new File(sessionDir,"encrypted.enc");
+        File ivFile = new File(sessionDir,"IV.txt");
+        File saltFile = new File(sessionDir,"salt.txt");
 
-        File encryptedFile = new File(TEMP_FILE_PATH + "encrypted.enc");
-        Encrypt.FileEncrypt(aesKey, IV, file, encryptedFile);
+        try {
+            byte[] salt = Encrypt.generateSalt();
+            SecretKey aesKey = PasswordDeriveUtils.derivedFromPassword(password, salt);
+            GCMParameterSpec IV = Encrypt.genIV();
 
-        File IVFile = new File(TEMP_FILE_PATH + "IV.txt");
-        try (FileOutputStream IVoutput = new FileOutputStream(IVFile)) {
-            IVoutput.write(IV.getIV());
+            encryptedFile = new File(sessionDir,"encrypted.enc");
+            Encrypt.FileEncrypt(aesKey, IV, file, encryptedFile);
+
+            ivFile = new File(sessionDir,"IV.txt");
+            try (FileOutputStream IVoutput = new FileOutputStream(ivFile)) {
+                IVoutput.write(IV.getIV());
+            }
+
+            saltFile = new File(sessionDir,"salt.txt");
+            try (FileOutputStream Saltoutput = new FileOutputStream(saltFile)) {
+                Saltoutput.write(salt);
+            }
+
+            File zipFile = ZipFileService.prepareZipFile(encryptedFile, ivFile, saltFile);
+
+            System.out.println("The encrypted zip file is saved to : " + zipFile.getAbsolutePath());
+
+            return zipFile;
+        } catch (Exception e) {
+            System.err.println("Encryption failed: " + e.getMessage());
+            return null;
+        } finally {
+            ZipFileService.postZipFileCleanUp(encryptedFile);
+            ZipFileService.postZipFileCleanUp(ivFile);
+            ZipFileService.postZipFileCleanUp(saltFile);
+            if (sessionDir.exists() && Objects.requireNonNull(sessionDir.listFiles()).length == 0) {
+                sessionDir.delete();
+            }
         }
-
-        File SaltFile = new File(TEMP_FILE_PATH + "salt.txt");
-        try (FileOutputStream Saltoutput = new FileOutputStream(SaltFile)) {
-            Saltoutput.write(salt);
-        }
-
-        File zipFile = ZipFileService.prepareZipFile(encryptedFile, IVFile, SaltFile);
-
-        ZipFileService.postZipFileCleanUp(encryptedFile);
-        ZipFileService.postZipFileCleanUp(IVFile);
-        ZipFileService.postZipFileCleanUp(SaltFile);
-
-        System.out.println("The encrypted zip file is saved to : " + zipFile.getAbsolutePath());
-
-        return zipFile;
     }
 
     public File encryptDataWithKeyPair(File file, File key) throws Exception {
 
         String sessionID = UUID.randomUUID().toString();
-        File tempFile = new File(TEMP_FILE_PATH + sessionID);
+        File sessionDir = new File(TEMP_FILE_PATH + sessionID + File.separator);
 //          Create the new file directory along with it.
-        tempFile.mkdirs();
+        sessionDir.mkdirs();
 
-        SecretKey aesKey = Encrypt.SecKey();
-        GCMParameterSpec IV = Encrypt.genIV();
+        File encryptedFile = new File(sessionDir, "encrypted.enc");
+        File encKeyIVFile = new File(sessionDir, "encrypted_Key_IV.txt");
 
-        File encryptedFile = new File(TEMP_FILE_PATH + "encrypted.enc");
-        Encrypt.FileEncrypt(aesKey, IV, file, encryptedFile);
+        try {
+            SecretKey aesKey = Encrypt.SecKey();
+            GCMParameterSpec IV = Encrypt.genIV();
 
-        PublicKey publicKey = KeyPairService.loadPublicKey(key);
+            encryptedFile = new File(sessionDir, "encrypted.enc");
+            Encrypt.FileEncrypt(aesKey, IV, file, encryptedFile);
 
-        String encryptedKeyIV = RSAUtils.encrypt(aesKey, IV, publicKey);
-        File encKeyIVFile = new File(TEMP_FILE_PATH + "encrypted_Key_IV.txt");
-        RSAUtils.saveEncryptedKeyIV(encryptedKeyIV, encKeyIVFile);
+            PublicKey publicKey = KeyPairService.loadPublicKey(key);
 
-        File zipFile = ZipFileService.prepareZipFile(encryptedFile, encKeyIVFile);
+            String encryptedKeyIV = RSAUtils.encrypt(aesKey, IV, publicKey);
+            encKeyIVFile = new File(sessionDir, "encrypted_Key_IV.txt");
+            RSAUtils.saveEncryptedKeyIV(encryptedKeyIV, encKeyIVFile);
 
-        ZipFileService.postZipFileCleanUp(encryptedFile);
-        ZipFileService.postZipFileCleanUp(encKeyIVFile);
+            File zipFile = ZipFileService.prepareZipFile(encryptedFile, encKeyIVFile);
 
-        System.out.println("The encrypted zip file is saved to : " + zipFile.getAbsolutePath());
+            ZipFileService.postZipFileCleanUp(encryptedFile);
+            ZipFileService.postZipFileCleanUp(encKeyIVFile);
 
-        return zipFile;
+            System.out.println("The encrypted zip file is saved to : " + zipFile.getAbsolutePath());
+
+            return zipFile;
+        } catch (Exception e) {
+            System.err.println("Encryption failed: " + e.getMessage());
+            return null;
+        } finally {
+            ZipFileService.postZipFileCleanUp(encryptedFile);
+            ZipFileService.postZipFileCleanUp(encKeyIVFile);
+            if (sessionDir.exists() && Objects.requireNonNull(sessionDir.listFiles()).length == 0) {
+                sessionDir.delete();
+            }
+        }
     }
 }

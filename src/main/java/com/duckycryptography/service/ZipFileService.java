@@ -39,6 +39,10 @@ public class ZipFileService {
         List<File>  filesToZipList = Arrays.asList(filesToZip);
         zipFiles(filesToZipList, zipFile);
 
+        if (!zipFile.exists() || zipFile == null) {
+            throw new Exception("Failed to create encrypted zip file.");
+        }
+
         return zipFile;
     }
 

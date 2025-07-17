@@ -16,31 +16,41 @@ public class DecryptService {
 
     public File decryptWithPassword(File encryptedFile, File IVFile, File saltFile, String password) throws Exception {
 
-        byte[] saltToByte = Files.readAllBytes(saltFile.toPath());
-        byte[] IVToByte = Files.readAllBytes(IVFile.toPath());
+        try {
+            byte[] saltToByte = Files.readAllBytes(saltFile.toPath());
+            byte[] IVToByte = Files.readAllBytes(IVFile.toPath());
 
-        GCMParameterSpec ivSpec = new GCMParameterSpec(128, IVToByte);
+            GCMParameterSpec ivSpec = new GCMParameterSpec(128, IVToByte);
 
-        SecretKey aesKey = PasswordDeriveUtils.derivedFromPassword(password, saltToByte);
+            SecretKey aesKey = PasswordDeriveUtils.derivedFromPassword(password, saltToByte);
 
-        File decryptedFile = new File(downloadDir, "decrypted.txt");
-        Decrypt.FileDecrypt(aesKey, ivSpec, encryptedFile, decryptedFile);
+            File decryptedFile = new File(downloadDir, "decrypted.txt");
+            Decrypt.FileDecrypt(aesKey, ivSpec, encryptedFile, decryptedFile);
 
-        return decryptedFile;
+            return decryptedFile;
+        } catch (Exception e) {
+            System.err.println("Decryption failed: " + e.getMessage());
+            return null;
+        }
     }
 
     public File decryptWithKeyPair(File encryptedFile, File encryptedKeyIV, File privateKeyFile) throws Exception {
 
-        String encryptedKeyIVString = RSAUtils.loadEncryptedKeyIV(encryptedKeyIV);
+        try {
+            String encryptedKeyIVString = RSAUtils.loadEncryptedKeyIV(encryptedKeyIV);
 
-        PrivateKey privKey = KeyPairService.loadPrivateKey(privateKeyFile);
+            PrivateKey privKey = KeyPairService.loadPrivateKey(privateKeyFile);
 
-        DecryptedKeyIV decryptedKeyIV = RSAUtils.decrypt(encryptedKeyIVString, privKey);
+            DecryptedKeyIV decryptedKeyIV = RSAUtils.decrypt(encryptedKeyIVString, privKey);
 
-        File decryptedFile = new File(downloadDir, "decrypted.txt");
-        Decrypt.FileDecrypt(decryptedKeyIV.getSecKey(), decryptedKeyIV.getIV(), encryptedFile, decryptedFile);
+            File decryptedFile = new File(downloadDir, "decrypted.txt");
+            Decrypt.FileDecrypt(decryptedKeyIV.getSecKey(), decryptedKeyIV.getIV(), encryptedFile, decryptedFile);
 
-        return decryptedFile;
+            return decryptedFile;
+        } catch (Exception e) {
+            System.err.println("Decryption failed: " + e.getMessage());
+            return null;
+        }
 
     }
 
