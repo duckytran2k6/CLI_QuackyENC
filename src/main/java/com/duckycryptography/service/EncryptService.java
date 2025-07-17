@@ -39,7 +39,15 @@ public class EncryptService {
             Saltoutput.write(salt);
         }
 
-        return ZipFileService.prepareZipFile(encryptedFile, IVFile, SaltFile);
+        File zipFile = ZipFileService.prepareZipFile(encryptedFile, IVFile, SaltFile);
+
+        ZipFileService.postZipFileCleanUp(encryptedFile);
+        ZipFileService.postZipFileCleanUp(IVFile);
+        ZipFileService.postZipFileCleanUp(SaltFile);
+
+        System.out.println("The encrypted zip file is saved to : " + zipFile.getAbsolutePath());
+
+        return zipFile;
     }
 
     public File encryptDataWithKeyPair(File file, File key) throws Exception {
@@ -61,6 +69,13 @@ public class EncryptService {
         File encKeyIVFile = new File(TEMP_FILE_PATH + "encrypted_Key_IV.txt");
         RSAUtils.saveEncryptedKeyIV(encryptedKeyIV, encKeyIVFile);
 
-        return ZipFileService.prepareZipFile(encryptedFile, encKeyIVFile);
+        File zipFile = ZipFileService.prepareZipFile(encryptedFile, encKeyIVFile);
+
+        ZipFileService.postZipFileCleanUp(encryptedFile);
+        ZipFileService.postZipFileCleanUp(encKeyIVFile);
+
+        System.out.println("The encrypted zip file is saved to : " + zipFile.getAbsolutePath());
+
+        return zipFile;
     }
 }
