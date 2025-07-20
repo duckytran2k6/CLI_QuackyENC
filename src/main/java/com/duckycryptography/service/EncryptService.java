@@ -59,6 +59,7 @@ public class EncryptService {
             return null;
         } finally {
             ZipFileService.postZipFileCleanUp(sessionDir);
+
         }
     }
 

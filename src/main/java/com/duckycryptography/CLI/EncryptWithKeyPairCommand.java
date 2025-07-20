@@ -38,16 +38,11 @@ public class EncryptWithKeyPairCommand implements Runnable {
             }
         }
 
-        for (int i = 0; i < files.size(); i++) {
-            File inputFile = files.get(i);
-            if (ValidityCheckerService.checkFile(inputFile, "File #" + (i + 1) + " (" + (inputFile != null ? inputFile.getName() : "unknown") + ")")) {
-                EncryptService eKP = new EncryptService();
-                try {
-                    eKP.encryptDataWithKeyPair(inputFile, publicKeyFile);
-                } catch (Exception e) {
-                    System.err.println(e.getMessage());
-                }
-            }
+        EncryptService eKP = new EncryptService();
+        try {
+            eKP.encryptDataWithKeyPair(files, publicKeyFile);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 }
