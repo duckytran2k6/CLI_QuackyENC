@@ -14,20 +14,15 @@ import java.util.List;
 
 public class EncryptWithKeyPairCommand implements Runnable {
 
-    @CommandLine.Option(names = {"-upF", "--uploadFiles"}, required = true, description = "Please upload the files to be encrypted!")
-    private List<File> files;
-
     @CommandLine.Option(names = {"-pubK", "--publicKey"}, required = true, description = "Upload the valid public key!")
     private File publicKeyFile;
 
     @Override
     public void run() {
+        List<File> files = FilesSelectService.selectMultipleFiles("Select the files you want to be encrypted!");
+
         if (!ValidityCheckerService.checkListLimit(files)) {
-            System.out.println("Opening the file explorer, please wait...!");
-            files = FilesSelectService.selectMultipleFiles("Select the files you want to be encrypted!");
-            if (!ValidityCheckerService.checkListLimit(files)) {
-                return;
-            }
+            return;
         }
 
         if (!ValidityCheckerService.checkFile(publicKeyFile, "publicKey")) {
