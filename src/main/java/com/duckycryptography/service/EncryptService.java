@@ -9,6 +9,7 @@ import javax.crypto.spec.GCMParameterSpec;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.security.PublicKey;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -16,36 +17,39 @@ public class EncryptService {
     //    Using the .getProperty() method to retrieve the value of a system property (ex. Window/Mac/Linux) then use the java property to create a temp folder directory.
     private final String TEMP_FILE_PATH = System.getProperty("java.io.tmpdir") + File.separator;
 
-    public File encryptDataWithPassword(File file, String password) throws Exception {
+    public File encryptDataWithPassword(List<File> files, String password) throws Exception {
 
         String sessionID = UUID.randomUUID().toString();
         File sessionDir = new File(TEMP_FILE_PATH + sessionID + File.separator);
 //          Create the new file directory along with it.
         sessionDir.mkdirs();
 
-        File encryptedFile = new File(sessionDir,"encrypted.enc");
         File ivFile = new File(sessionDir,"IV.txt");
         File saltFile = new File(sessionDir,"salt.txt");
 
+        byte[] salt = Encrypt.generateSalt();
+        SecretKey aesKey = PasswordDeriveUtils.derivedFromPassword(password, salt);
+        GCMParameterSpec IV = Encrypt.genIV();
+
         try {
-            byte[] salt = Encrypt.generateSalt();
-            SecretKey aesKey = PasswordDeriveUtils.derivedFromPassword(password, salt);
-            GCMParameterSpec IV = Encrypt.genIV();
 
-            encryptedFile = new File(sessionDir,"encrypted.enc");
-            Encrypt.FileEncrypt(aesKey, IV, file, encryptedFile);
+            for (int i = 0; i < files.size(); i++) {
+                File inputFile = files.get(i);
+                if (ValidityCheckerService.checkFile(inputFile, "File #" + (i + 1) + " (" + (inputFile != null ? inputFile.getName() : "unknown") + ")")) {
+                    File encryptedFile = new File(sessionDir,inputFile.getName() + ".enc");
+                    Encrypt.FileEncrypt(aesKey, IV, inputFile, encryptedFile);
+                }
+            }
 
-            ivFile = new File(sessionDir,"IV.txt");
             try (FileOutputStream IVoutput = new FileOutputStream(ivFile)) {
                 IVoutput.write(IV.getIV());
             }
 
-            saltFile = new File(sessionDir,"salt.txt");
             try (FileOutputStream Saltoutput = new FileOutputStream(saltFile)) {
                 Saltoutput.write(salt);
             }
 
-            File zipFile = ZipFileService.prepareZipFile(encryptedFile, ivFile, saltFile);
+            File zipFile = ZipFileService.prepareZipFile(sessionDir);
 
             System.out.println("The encrypted zip file is saved to : " + zipFile.getAbsolutePath());
 
@@ -54,42 +58,38 @@ public class EncryptService {
             System.err.println("Encryption failed: " + e.getMessage());
             return null;
         } finally {
-            ZipFileService.postZipFileCleanUp(encryptedFile);
-            ZipFileService.postZipFileCleanUp(ivFile);
-            ZipFileService.postZipFileCleanUp(saltFile);
-            if (sessionDir.exists() && Objects.requireNonNull(sessionDir.listFiles()).length == 0) {
-                sessionDir.delete();
-            }
+            ZipFileService.postZipFileCleanUp(sessionDir);
         }
     }
 
-    public File encryptDataWithKeyPair(File file, File key) throws Exception {
+    public File encryptDataWithKeyPair(List<File> files, File key) throws Exception {
 
         String sessionID = UUID.randomUUID().toString();
         File sessionDir = new File(TEMP_FILE_PATH + sessionID + File.separator);
 //          Create the new file directory along with it.
         sessionDir.mkdirs();
 
-        File encryptedFile = new File(sessionDir, "encrypted.enc");
         File encKeyIVFile = new File(sessionDir, "encrypted_Key_IV.txt");
 
-        try {
-            SecretKey aesKey = Encrypt.SecKey();
-            GCMParameterSpec IV = Encrypt.genIV();
+        SecretKey aesKey = Encrypt.SecKey();
+        GCMParameterSpec IV = Encrypt.genIV();
 
-            encryptedFile = new File(sessionDir, "encrypted.enc");
-            Encrypt.FileEncrypt(aesKey, IV, file, encryptedFile);
+        try {
+
+            for (int i = 0; i < files.size(); i++) {
+                File inputFile = files.get(i);
+                if (ValidityCheckerService.checkFile(inputFile, "File #" + (i + 1) + " (" + (inputFile != null ? inputFile.getName() : "unknown") + ")")) {
+                    File encryptedFile = new File(sessionDir,inputFile.getName() + ".enc");
+                    Encrypt.FileEncrypt(aesKey, IV, inputFile, encryptedFile);
+                }
+            }
 
             PublicKey publicKey = KeyPairService.loadPublicKey(key);
 
             String encryptedKeyIV = RSAUtils.encrypt(aesKey, IV, publicKey);
-            encKeyIVFile = new File(sessionDir, "encrypted_Key_IV.txt");
             RSAUtils.saveEncryptedKeyIV(encryptedKeyIV, encKeyIVFile);
 
-            File zipFile = ZipFileService.prepareZipFile(encryptedFile, encKeyIVFile);
-
-            ZipFileService.postZipFileCleanUp(encryptedFile);
-            ZipFileService.postZipFileCleanUp(encKeyIVFile);
+            File zipFile = ZipFileService.prepareZipFile(sessionDir);
 
             System.out.println("The encrypted zip file is saved to : " + zipFile.getAbsolutePath());
 
@@ -98,11 +98,7 @@ public class EncryptService {
             System.err.println("Encryption failed: " + e.getMessage());
             return null;
         } finally {
-            ZipFileService.postZipFileCleanUp(encryptedFile);
-            ZipFileService.postZipFileCleanUp(encKeyIVFile);
-            if (sessionDir.exists() && Objects.requireNonNull(sessionDir.listFiles()).length == 0) {
-                sessionDir.delete();
-            }
+            ZipFileService.postZipFileCleanUp(sessionDir);
         }
     }
 }
