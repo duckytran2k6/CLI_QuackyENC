@@ -1,5 +1,6 @@
 package com.duckycryptography.CLI;
 import com.duckycryptography.service.EncryptService;
+import com.duckycryptography.service.FilesSelectService;
 import com.duckycryptography.service.ValidityCheckerService;
 import picocli.CommandLine;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class EncryptWithKeyPairCommand implements Runnable {
 
-    @CommandLine.Parameters(arity = "1..", paramLabel = "FILES", description = "Please upload the files to be encrypted!")
+    @CommandLine.Option(names = {"-upF", "--uploadFiles"}, description = "Please upload the files to be encrypted!")
     private List<File> files;
 
     @CommandLine.Option(names = {"-pubK", "--publicKey"}, required = true, description = "Upload the valid public key!")
@@ -22,11 +23,19 @@ public class EncryptWithKeyPairCommand implements Runnable {
     @Override
     public void run() {
         if (!ValidityCheckerService.checkListLimit(files)) {
-            return;
+            System.out.println("Opening the file explorer, please wait...!");
+            files = FilesSelectService.selectMultipleFiles("Select the files you want to be encrypted!");
+            if (!ValidityCheckerService.checkListLimit(files)) {
+                return;
+            }
         }
 
         if (!ValidityCheckerService.checkFile(publicKeyFile, "publicKey")) {
-            return;
+            System.out.println("Opening the file explorer, please wait...!");
+            publicKeyFile = FilesSelectService.selectSingleFile("Select the receiver's public key file!");
+            if (!ValidityCheckerService.checkFile(publicKeyFile, "publicKey")) {
+                return;
+            }
         }
 
         for (int i = 0; i < files.size(); i++) {
