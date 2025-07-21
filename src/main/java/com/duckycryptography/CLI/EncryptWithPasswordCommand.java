@@ -20,20 +20,20 @@ public class EncryptWithPasswordCommand implements Runnable {
 
     @Override
     public void run() {
-        List<File> files = FilesSelectService.selectMultipleFiles("Select the files you want to be encrypted!");
-
-        if (!ValidityCheckerService.checkListLimit(files)) {
-            return;
-        }
-
-        if (!ValidityCheckerService.validPassword(password)) {
-            System.err.println("Please provide a valid password!");
-            return;
-        }
-
-        EncryptService eP = new EncryptService();
         try {
-            eP.encryptDataWithPassword(files, password);
+            List<File> files = FilesSelectService.selectMultipleFiles("Select the files you want to be encrypted!");
+
+            if (!ValidityCheckerService.checkListLimit(files)) {
+                return;
+            }
+
+            if (!ValidityCheckerService.validPassword(password)) {
+                System.err.println("Please provide a valid password!");
+                return;
+            }
+
+            EncryptService eP = new EncryptService();
+                eP.encryptDataWithPassword(files, password);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
