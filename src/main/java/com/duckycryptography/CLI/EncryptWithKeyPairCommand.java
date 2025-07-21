@@ -14,28 +14,31 @@ import java.util.List;
 
 public class EncryptWithKeyPairCommand implements Runnable {
 
-    @CommandLine.Option(names = {"-pubK", "--publicKey"}, required = true, description = "Upload the valid public key!")
-    private File publicKeyFile;
-
     @Override
     public void run() {
-        List<File> files = FilesSelectService.selectMultipleFiles("Select the files you want to be encrypted!");
+        try {
+            List<File> files = FilesSelectService.selectMultipleFiles("Select the files you want to be encrypted!");
 
-        if (!ValidityCheckerService.checkListLimit(files)) {
-            return;
-        }
+            if (!ValidityCheckerService.checkListLimit(files)) {
+                return;
+            }
 
-        if (!ValidityCheckerService.checkFile(publicKeyFile, "publicKey")) {
-            System.out.println("Opening the file explorer, please wait...!");
-            publicKeyFile = FilesSelectService.selectSingleFile("Select the receiver's public key file!");
+            File publicKeyFile = null;
+            for (File file : files) {
+                if (ValidityCheckerService.checkFileExists(file, "public.key")) {
+                    publicKeyFile = file;
+                    break;
+                }
+            }
+
             if (!ValidityCheckerService.checkFile(publicKeyFile, "publicKey")) {
                 return;
             }
-        }
 
-        EncryptService eKP = new EncryptService();
-        try {
-            eKP.encryptDataWithKeyPair(files, publicKeyFile);
+            files.remove(publicKeyFile);
+
+            EncryptService eKP = new EncryptService();
+                eKP.encryptDataWithKeyPair(files, publicKeyFile);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

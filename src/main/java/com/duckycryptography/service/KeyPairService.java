@@ -20,6 +20,7 @@ public class KeyPairService {
         File publicKeyFile = new File(downloadDir, "public.key");
         File privateKeyFile = new File(downloadDir, "private.key");
         saveKeyPair(keyPair, publicKeyFile, privateKeyFile);
+        System.out.println("Successfully generated the key pair and downloaded at: " + downloadDir.getAbsolutePath());
     }
 
     public static PublicKey loadPublicKey(File publicPath) throws Exception {

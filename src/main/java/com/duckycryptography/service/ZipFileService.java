@@ -1,9 +1,6 @@
 package com.duckycryptography.service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -15,15 +12,20 @@ public class ZipFileService {
         try (FileOutputStream fos = new FileOutputStream(zipFile);
              ZipOutputStream zos = new ZipOutputStream(fos)) {
 
+            int index = 0;
             for (File file : files) {
-                try (FileInputStream fis = new FileInputStream(file)) {
-                    ZipEntry zipEntry = new ZipEntry(file.getName());
+                if (!file.exists() || !file.canRead()) {
+                    continue;
+                }
 
+                try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
+                    String entryName = index++ + "_" + file.getName();
+                    ZipEntry zipEntry = new ZipEntry(entryName);
                     zos.putNextEntry(zipEntry);
 
                     byte[] bytes = new byte[1024];
                     int length;
-                    while ((length = fis.read(bytes)) >= 0) {
+                    while ((length = bis.read(bytes)) >= 0) {
                         zos.write(bytes, 0, length);
                     }
                 }
@@ -31,26 +33,37 @@ public class ZipFileService {
         }
     }
 
-    public static File prepareZipFile(File... filesToZip) throws Exception {
+    public static File prepareZipFile(File sessionDir) throws Exception {
+        if (!sessionDir.isDirectory()) {
+            System.out.println("Expected a directory!");
+        }
+
         String zipFileName = "encrypted.zip";
         File downloadDir = DownloadFilesService.getDownloadDir();
         File zipFile = new File(downloadDir, zipFileName);
 
-        List<File>  filesToZipList = Arrays.asList(filesToZip);
-        zipFiles(filesToZipList, zipFile);
+        File[]  filesToZipList = sessionDir.listFiles();
+        if (filesToZipList == null || filesToZipList.length == 0) {
+            System.out.println("No files in the directory to zip!");
+        }
 
-        if (zipFile == null || !zipFile.exists()) {
+        zipFiles(Arrays.asList(filesToZipList), zipFile);
+
+        if (!zipFile.exists()) {
             throw new Exception("Failed to create encrypted zip file.");
         }
 
         return zipFile;
     }
 
-    public static void postZipFileCleanUp(File file) {
-        if (file.exists() && file != null && file.delete()) {
-            System.out.println("Successfully delete temp file: " + file.getAbsolutePath());
-        } else {
-            System.err.println("Failed to delete temp file: " + file.getAbsolutePath());
+    public static void postZipFileCleanUp(File sessionDir) {
+        File[] sessionContents = sessionDir.listFiles();
+        if (sessionContents != null) {
+            for (File file : sessionContents) {
+                postZipFileCleanUp(file);
+            }
+            System.out.println("Successfully cleaned up zip file.");
         }
+        sessionDir.delete();
     }
 }
