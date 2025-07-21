@@ -27,16 +27,16 @@ public class ValidityCheckerService {
 
     public static boolean checkFile(File file, String name) {
         String fileName = file.getName();
-        if (!fileName.endsWith(".txt")) {
-            System.err.println("The file " + file.getName() + " is not a text file");
-            return false;
-        }
-
-        if (!file.exists() || file.length() == 0 || !file.isFile()) {
+        if (fileName.endsWith(".txt") || fileName.endsWith("public.key")) {
+            System.err.println("Valid file types: " + fileName);
+            return true;
+        } else if (!file.exists() || file.length() == 0 || !file.isFile()) {
             System.err.println("The " + name + " file is empty/does not exist!");
             return false;
+        } else {
+            System.err.println("The file " + file.getName() + " is not a valid file type!");
         }
-        return true;
+        return false;
     }
 
     public static boolean checkFileExists(File file, String fileName) {
