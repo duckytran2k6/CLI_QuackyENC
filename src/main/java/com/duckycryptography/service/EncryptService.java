@@ -24,10 +24,6 @@ public class EncryptService {
 //          Create the new file directory along with it.
         sessionDir.mkdirs();
 
-        if (!sessionDir.canWrite()) {
-            System.out.println("Can't write session directory: " + sessionDir);
-        }
-
         File ivFile = new File(sessionDir,"IV.txt");
         File saltFile = new File(sessionDir,"salt.txt");
 
