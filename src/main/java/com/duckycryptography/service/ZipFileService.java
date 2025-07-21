@@ -1,9 +1,6 @@
 package com.duckycryptography.service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -15,15 +12,20 @@ public class ZipFileService {
         try (FileOutputStream fos = new FileOutputStream(zipFile);
              ZipOutputStream zos = new ZipOutputStream(fos)) {
 
+            int index = 0;
             for (File file : files) {
-                try (FileInputStream fis = new FileInputStream(file)) {
-                    ZipEntry zipEntry = new ZipEntry(file.getName());
+                if (!file.exists() || !file.canRead()) {
+                    continue;
+                }
 
+                try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
+                    String entryName = index++ + "_" + file.getName();
+                    ZipEntry zipEntry = new ZipEntry(entryName);
                     zos.putNextEntry(zipEntry);
 
                     byte[] bytes = new byte[1024];
                     int length;
-                    while ((length = fis.read(bytes)) >= 0) {
+                    while ((length = bis.read(bytes)) >= 0) {
                         zos.write(bytes, 0, length);
                     }
                 }
