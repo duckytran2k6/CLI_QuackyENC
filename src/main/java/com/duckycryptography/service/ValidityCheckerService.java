@@ -40,10 +40,7 @@ public class ValidityCheckerService {
     }
 
     public static boolean checkFileExists(File file, String fileName) {
-            if (file.getName().toLowerCase().endsWith(fileName)) {
-                return true;
-            }
-        return false;
+        return file.getName().toLowerCase().endsWith(fileName);
     }
 
     public static boolean validPassword(String password) {

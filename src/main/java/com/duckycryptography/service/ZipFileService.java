@@ -33,26 +33,37 @@ public class ZipFileService {
         }
     }
 
-    public static File prepareZipFile(File... filesToZip) throws Exception {
+    public static File prepareZipFile(File sessionDir) throws Exception {
+        if (!sessionDir.isDirectory()) {
+            System.out.println("Expected a directory!");
+        }
+
         String zipFileName = "encrypted.zip";
         File downloadDir = DownloadFilesService.getDownloadDir();
         File zipFile = new File(downloadDir, zipFileName);
 
-        List<File>  filesToZipList = Arrays.asList(filesToZip);
-        zipFiles(filesToZipList, zipFile);
+        File[]  filesToZipList = sessionDir.listFiles();
+        if (filesToZipList == null || filesToZipList.length == 0) {
+            System.out.println("No files in the directory to zip!");
+        }
 
-        if (zipFile == null || !zipFile.exists()) {
+        zipFiles(Arrays.asList(filesToZipList), zipFile);
+
+        if (!zipFile.exists()) {
             throw new Exception("Failed to create encrypted zip file.");
         }
 
         return zipFile;
     }
 
-    public static void postZipFileCleanUp(File file) {
-        if (file.exists() && file != null && file.delete()) {
-            System.out.println("Successfully delete temp file: " + file.getAbsolutePath());
-        } else {
-            System.err.println("Failed to delete temp file: " + file.getAbsolutePath());
+    public static void postZipFileCleanUp(File sessionDir) {
+        File[] sessionContents = sessionDir.listFiles();
+        if (sessionContents != null) {
+            for (File file : sessionContents) {
+                postZipFileCleanUp(file);
+            }
+            System.out.println("Successfully cleaned up zip file.");
         }
+        sessionDir.delete();
     }
 }
