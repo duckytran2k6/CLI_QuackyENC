@@ -14,8 +14,6 @@ import java.util.List;
 
 public class EncryptWithKeyPairCommand implements Runnable {
 
-    @CommandLine.Option(names = {"-pubK", "--publicKey"}, required = true, description = "Upload the valid public key!")
-    private File publicKeyFile;
 
     @Override
     public void run() {
@@ -25,12 +23,16 @@ public class EncryptWithKeyPairCommand implements Runnable {
             return;
         }
 
-        if (!ValidityCheckerService.checkFile(publicKeyFile, "publicKey")) {
-            System.out.println("Opening the file explorer, please wait...!");
-            publicKeyFile = FilesSelectService.selectSingleFile("Select the receiver's public key file!");
-            if (!ValidityCheckerService.checkFile(publicKeyFile, "publicKey")) {
-                return;
+        File publicKeyFile = null;
+        for (File file : files) {
+            if (ValidityCheckerService.checkFileExists(file, "public.key")) {
+                publicKeyFile = file;
+                break;
             }
+        }
+
+        if (!ValidityCheckerService.checkFile(publicKeyFile, "publicKey")) {
+            return;
         }
 
         EncryptService eKP = new EncryptService();

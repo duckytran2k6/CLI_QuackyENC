@@ -32,11 +32,18 @@ public class ValidityCheckerService {
             return false;
         }
 
-        if (file.length() == 0 || !file.exists() || !file.isFile()) {
+        if (!file.exists() || file.length() == 0 || !file.isFile()) {
             System.err.println("The " + name + " file is empty/does not exist!");
             return false;
         }
         return true;
+    }
+
+    public static boolean checkFileExists(File file, String fileName) {
+            if (file.getName().toLowerCase().endsWith(fileName)) {
+                return true;
+            }
+        return false;
     }
 
     public static boolean validPassword(String password) {
