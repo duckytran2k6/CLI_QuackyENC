@@ -33,12 +33,10 @@ public class ZipFileService {
         }
     }
 
-    public static File prepareZipFile(File sessionDir) throws Exception {
+    public static File prepareZipFile(File sessionDir, String zipFileName) throws Exception {
         if (!sessionDir.isDirectory()) {
             System.out.println("Expected a directory!");
         }
-
-        String zipFileName = "encrypted.zip";
         File downloadDir = DownloadFilesService.getDownloadDir();
         File zipFile = new File(downloadDir, zipFileName);
 

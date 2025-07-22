@@ -38,7 +38,7 @@ public class EncryptWithKeyPairCommand implements Runnable {
             files.remove(publicKeyFile);
 
             EncryptService eKP = new EncryptService();
-                eKP.encryptDataWithKeyPair(files, publicKeyFile);
+            eKP.encryptDataWithKeyPair(files, publicKeyFile);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

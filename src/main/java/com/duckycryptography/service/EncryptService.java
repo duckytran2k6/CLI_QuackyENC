@@ -27,11 +27,10 @@ public class EncryptService {
         File ivFile = new File(sessionDir,"IV.txt");
         File saltFile = new File(sessionDir,"salt.txt");
 
-        byte[] salt = Encrypt.generateSalt();
-        SecretKey aesKey = PasswordDeriveUtils.derivedFromPassword(password, salt);
-        GCMParameterSpec IV = Encrypt.genIV();
-
         try {
+            byte[] salt = Encrypt.generateSalt();
+            SecretKey aesKey = PasswordDeriveUtils.derivedFromPassword(password, salt);
+            GCMParameterSpec IV = Encrypt.genIV();
 
             for (int i = 0; i < files.size(); i++) {
                 File inputFile = files.get(i);
@@ -49,9 +48,8 @@ public class EncryptService {
                 Saltoutput.write(salt);
             }
 
-            File zipFile = ZipFileService.prepareZipFile(sessionDir);
-
-            System.out.println("The encrypted zip file is saved to : " + zipFile.getAbsolutePath());
+            File zipFile = ZipFileService.prepareZipFile(sessionDir, "encrypted.zip");
+            System.out.println("Encryption successfully! The encrypted zip file is saved to : " + zipFile.getAbsolutePath());
 
             return zipFile;
         } catch (Exception e) {
@@ -72,10 +70,9 @@ public class EncryptService {
 
         File encKeyIVFile = new File(sessionDir, "encrypted_Key_IV.txt");
 
-        SecretKey aesKey = Encrypt.SecKey();
-        GCMParameterSpec IV = Encrypt.genIV();
-
         try {
+            SecretKey aesKey = Encrypt.SecKey();
+            GCMParameterSpec IV = Encrypt.genIV();
 
             for (int i = 0; i < files.size(); i++) {
                 File inputFile = files.get(i);
@@ -86,13 +83,11 @@ public class EncryptService {
             }
 
             PublicKey publicKey = KeyPairService.loadPublicKey(key);
-
             String encryptedKeyIV = RSAUtils.encrypt(aesKey, IV, publicKey);
             RSAUtils.saveEncryptedKeyIV(encryptedKeyIV, encKeyIVFile);
 
-            File zipFile = ZipFileService.prepareZipFile(sessionDir);
-
-            System.out.println("The encrypted zip file is saved to : " + zipFile.getAbsolutePath());
+            File zipFile = ZipFileService.prepareZipFile(sessionDir, "encrypted.zip");
+            System.out.println("Encryption successfully! The encrypted zip file is saved to : " + zipFile.getAbsolutePath());
 
             return zipFile;
         } catch (Exception e) {

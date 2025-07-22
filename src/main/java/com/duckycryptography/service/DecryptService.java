@@ -10,11 +10,17 @@ import javax.crypto.spec.GCMParameterSpec;
 import java.io.File;
 import java.nio.file.Files;
 import java.security.PrivateKey;
+import java.util.List;
+import java.util.UUID;
 
-public class DecryptService {
-    private final File downloadDir = DownloadFilesService.getDownloadDir();
+public class    DecryptService {
+    private final String TEMP_FILE_PATH = System.getProperty("java.io.tmpdir") + File.separator;
 
-    public File decryptWithPassword(File encryptedFile, File IVFile, File saltFile, String password) throws Exception {
+    public File decryptWithPassword(List<File> encryptedFile, File IVFile, File saltFile, String password) throws Exception {
+        String sessionID = UUID.randomUUID().toString();
+        File sessionDir = new File(TEMP_FILE_PATH + sessionID + File.separator);
+//          Create the new file directory along with it.
+        sessionDir.mkdirs();
 
         try {
             byte[] saltToByte = Files.readAllBytes(saltFile.toPath());
@@ -24,29 +30,48 @@ public class DecryptService {
 
             SecretKey aesKey = PasswordDeriveUtils.derivedFromPassword(password, saltToByte);
 
-            File decryptedFile = new File(downloadDir, "decrypted.txt");
-            Decrypt.FileDecrypt(aesKey, ivSpec, encryptedFile, decryptedFile);
+            for (int i = 0; i < encryptedFile.size(); i++) {
+                File inputFile = encryptedFile.get(i);
+                if (ValidityCheckerService.checkFile(inputFile, "File #" + (i + 1) + " (" + (inputFile != null ? inputFile.getName() : "unknown") + ")")) {
+                    File decryptedFile = new File(sessionDir, inputFile.getName() + ".txt");
+                    Decrypt.FileDecrypt(aesKey, ivSpec, inputFile, decryptedFile);
+                }
+            }
 
-            return decryptedFile;
+            File zipFile = ZipFileService.prepareZipFile(sessionDir, "decrypted.zip");
+
+            System.out.println("Decrypted successfully! The decrypted zip file is saved to : " + zipFile.getAbsolutePath());
+
+            return zipFile;
         } catch (Exception e) {
             System.err.println("Decryption failed: " + e.getMessage());
             return null;
         }
     }
 
-    public File decryptWithKeyPair(File encryptedFile, File encryptedKeyIV, File privateKeyFile) throws Exception {
+    public File decryptWithKeyPair(List<File> encryptedFile, File encryptedKeyIV, File privateKeyFile) throws Exception {
+        String sessionID = UUID.randomUUID().toString();
+        File sessionDir = new File(TEMP_FILE_PATH + sessionID + File.separator);
+//          Create the new file directory along with it.
+        sessionDir.mkdirs();
 
         try {
             String encryptedKeyIVString = RSAUtils.loadEncryptedKeyIV(encryptedKeyIV);
-
             PrivateKey privKey = KeyPairService.loadPrivateKey(privateKeyFile);
-
             DecryptedKeyIV decryptedKeyIV = RSAUtils.decrypt(encryptedKeyIVString, privKey);
 
-            File decryptedFile = new File(downloadDir, "decrypted.txt");
-            Decrypt.FileDecrypt(decryptedKeyIV.getSecKey(), decryptedKeyIV.getIV(), encryptedFile, decryptedFile);
+            for (int i = 0; i < encryptedFile.size(); i++) {
+                File inputFile = encryptedFile.get(i);
+                if (ValidityCheckerService.checkFile(inputFile, "File #" + (i + 1) + " (" + (inputFile != null ? inputFile.getName() : "unknown") + ")")) {
+                    File decryptedFile = new File(sessionDir, "decrypted.txt");
+                    Decrypt.FileDecrypt(decryptedKeyIV.getSecKey(), decryptedKeyIV.getIV(), inputFile, decryptedFile);
+                }
+            }
 
-            return decryptedFile;
+            File zipFile = ZipFileService.prepareZipFile(sessionDir, "decrypted.zip");
+            System.out.println("Decrypted successfully! The decrypted zip file is saved to : " + zipFile.getAbsolutePath());
+
+            return zipFile;
         } catch (Exception e) {
             System.err.println("Decryption failed: " + e.getMessage());
             return null;
