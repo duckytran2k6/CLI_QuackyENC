@@ -1,6 +1,7 @@
 package com.duckycryptography.CLI;
 
 import com.duckycryptography.service.DecryptService;
+import com.duckycryptography.service.FilesSelectService;
 import com.duckycryptography.service.ValidityCheckerService;
 import picocli.CommandLine;
 
@@ -14,36 +15,32 @@ import java.util.List;
 
 public class DecryptWithKeyPairCommand implements Runnable {
 
-
-    @CommandLine.Parameters(arity = "1..", paramLabel = "FILES", description = "Upload the encrypted files to be decrypt!")
-    private List<File> files;
-
-    @CommandLine.Option(names = {"-kIV", "--keyIV"}, required = true, description = "Upload the encrypted file containing the key and IV!")
-    private File keyIVFile;
-
-    @CommandLine.Option(names = {"-priK","--privateKey"}, required = true, description = "Upload the valid private key!")
-    private File privateKeyFile;
-
     @Override
     public void run() {
-        if (!ValidityCheckerService.checkListLimit(files)) {
-            return;
-        }
+        try {
+            List<File> files = FilesSelectService.selectMultipleFiles("Select the files you want to be decrypted!");
 
-        if (!ValidityCheckerService.checkFile(keyIVFile, "keyIVFile") || !ValidityCheckerService.checkFile(privateKeyFile, "privateKeyFile")) {
-            return;
-        }
+            if (!ValidityCheckerService.checkListLimit(files)) {return;}
 
-        for (int i = 0; i < files.size(); i++) {
-            File inputFile = files.get(i);
-            if (ValidityCheckerService.checkFile(inputFile, "File #" + (i + 1) + " (" + (inputFile != null ? inputFile.getName() : "unknown") + ")")) {
-                DecryptService dKP = new DecryptService();
-                try {
-                    dKP.decryptWithKeyPair(inputFile, keyIVFile, privateKeyFile);
-                } catch (Exception e) {
-                    System.err.println(e.getMessage());
+            File keyivFile = null;
+            File privateKeyFile = null;
+            for (File file : files) {
+                if (ValidityCheckerService.checkFileExists(file, "encrypted_Key_IV.txt")) {
+                    keyivFile = file;
+                } else if (ValidityCheckerService.checkFileExists(file, "private.key")) {
+                    privateKeyFile = file;
                 }
             }
+
+            if (!ValidityCheckerService.checkFile(keyivFile, "keyIVFile") || !ValidityCheckerService.checkFile(privateKeyFile, "privateKeyFile")) {return;}
+
+            files.remove(keyivFile);
+            files.remove(privateKeyFile);
+
+            DecryptService dKP = new DecryptService();
+            dKP.decryptWithKeyPair(files, keyivFile, privateKeyFile);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 }
