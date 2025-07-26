@@ -9,7 +9,7 @@
     * Refers to the **_NOTES_** section below for more information on each method.
 
 ## 📂 **ENCRYPTION:**
-- Choose the desire method and start with uploading the desire files to be encrypted.
+- Choose the desire method and start with uploading the desire files to be encrypted (1-20 files).
 - Then, enter the required information:
     + Enter the desire password for the password method.
     + Upload the receiver's public key for the key pair method.
