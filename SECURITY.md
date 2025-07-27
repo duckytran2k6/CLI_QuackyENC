@@ -8,5 +8,5 @@
 ## ⚠️ **DISCLOSURE:**
 - For sensitive bugs, please report it privately and do not open public issues. I'll acknowledge and fix them as soon as possible!
 
-- Current tool version: v2.10.15 Beta
+- Current tool version: Beta Release v1.0.0
 
