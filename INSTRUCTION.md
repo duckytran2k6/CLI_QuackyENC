@@ -1,5 +1,5 @@
 ## ✅ **PREREQUISITES:**
-- Make sure to have Java JDK downloaded. (Run -info/--information for the download link)
+- Make sure to have Java JDK downloaded. (See the JDK SETUP instruction file for more information)
 - The directory to the tool's extracted zip folder. (i.e ../Download/BetaRelease/BetaRelease)
 which can be obtained from the file explorer at the top section.
 

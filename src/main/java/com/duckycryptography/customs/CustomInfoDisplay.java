@@ -21,7 +21,7 @@ public class CustomInfoDisplay {
             ✅ Java 17 or newer (JRE or JDK)
                ↳ Check with: java -version
 
-            🔗 Download Java:
+            🔗 Recommended JDK:
                https://adoptium.net/en-GB/temurin/releases/
             """);
 
