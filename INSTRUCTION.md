@@ -1,9 +1,12 @@
 ## ✅ **PREREQUISITES:**
 - Make sure to have Java JDK downloaded. (Run -info/--information for the download link)
-- The directory to the tool's jar file. (i.e ../Download/duckytool.jar)
+- The directory to the tool's extracted zip folder. (i.e ../Download/BetaRelease/BetaRelease)
+which can be obtained from the file explorer at the top section.
 
 ## 🖥️ **INSTRUCTIONS:**
-- The order to execute the command: java -jar (insert your jar file directory here ^) (choose the command for the service you want to perform)
+- Once you have successfully download the zip folder, please open your OS terminal and  perform the following command:
+  + cd (the directory as stated above)
+- Then, use the following command order: java -jar duckytool.jar (choose the command for the service you want to perform)
 - For Encryption/Decryption choose between the 2 methods: -p for password method and -kp for key pair method.
     * For Key pair method, the receiver must use the key pair generator before proceeding using -kpg command.
     * Refers to the **_NOTES_** section below for more information on each method.
