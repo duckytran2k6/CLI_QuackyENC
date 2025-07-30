@@ -1,6 +1,7 @@
 ## ✅ **PREREQUISITES:**
 - Make sure to have Java JDK downloaded. (See the JDK_SETUP instruction file for more information)
-- The directory to the tool's extracted zip folder according to your OS. (i.e ../Download/BetaRelease/BetaRelease for Windows)
+- The directory to the tool's extracted zip folder according to your OS. (i.e ..\Download\BetaRelease\BetaRelease for
+Windows file explorer)
 
 ## 🖥️ **INSTRUCTIONS:**
 - Once you have successfully download the zip folder, please open your OS terminal and  perform the following command:
