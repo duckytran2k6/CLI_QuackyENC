@@ -1,2 +1,2 @@
 #!/bin/bash
-exec java -jar duckytool.jar "$@"
+exec java -jar quackyenc.jar "$@"
