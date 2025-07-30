@@ -9,10 +9,10 @@
 		<relativePath/>
 	</parent>
 	<groupId>com.DuckyCrypto</groupId>
-	<artifactId>duckytool</artifactId>
+	<artifactId>quackyenc</artifactId>
 	<version>0.0.1</version>
-	<name>duckycryptography</name>
-	<description>duckycryptography project</description>
+	<name>quacky_cryptography</name>
+	<description>quacky_cryptography project</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -53,7 +53,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>duckytool</finalName>
+		<finalName>quackyenc</finalName>
 
 		<plugins>
 			<plugin>
