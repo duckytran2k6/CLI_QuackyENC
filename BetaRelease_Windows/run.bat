@@ -1,2 +1,2 @@
 @echo off
-java -jar duckytool.jar %*
+java -jar quackyenc.jar %*
