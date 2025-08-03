@@ -1,4 +1,4 @@
-package com.duckycryptography.CLI;
+package com.duckycryptography.cli;
 
 import com.duckycryptography.customs.CustomHelpDisplay;
 import com.duckycryptography.customs.CustomInfoDisplay;

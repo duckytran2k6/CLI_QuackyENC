@@ -1,4 +1,4 @@
-package com.duckycryptography.CLI;
+package com.duckycryptography.cli;
 
 import com.duckycryptography.service.EncryptService;
 import com.duckycryptography.service.FilesSelectService;
