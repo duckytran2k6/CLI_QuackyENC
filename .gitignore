@@ -1,4 +1,8 @@
 HELP.md
+
+### exe files ###
+*.exe
+
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
