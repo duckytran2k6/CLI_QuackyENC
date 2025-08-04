@@ -8,8 +8,13 @@ public class ValidityCheckerService {
     private final static int MAX_FILES = 20;
 
     public static boolean checkListLimit(List<File> files) {
+        if (files == null) {
+            System.err.println("Please upload a valid list of files!");
+            return false;
+        }
+
         if (files.isEmpty()) {
-            System.err.println("File list is empty");
+            System.err.println("File list is empty!");
             return false;
         }
         if (files.size() > MAX_FILES) {
@@ -18,7 +23,7 @@ public class ValidityCheckerService {
         }
         for (File file : files) {
             if (file.length() > MAX_FILE_SIZE) {
-                System.err.println("The file " + file.getName() + "exceeds " + MAX_FILE_SIZE + "MB");
+                System.err.println("The file " + file.getName() + "exceeds " + MAX_FILE_SIZE + "MB!");
                 return false;
             }
         }
