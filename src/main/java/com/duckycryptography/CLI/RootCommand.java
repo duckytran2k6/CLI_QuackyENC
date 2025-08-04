@@ -2,7 +2,6 @@ package com.duckycryptography.cli;
 
 import com.duckycryptography.customs.CustomHelpDisplay;
 import com.duckycryptography.customs.CustomInfoDisplay;
-import org.springframework.stereotype.Component;
 import picocli.CommandLine;
 
 
@@ -16,8 +15,13 @@ import picocli.CommandLine;
         description = "Tools for encryption"
 )
 
-@Component
 public class RootCommand implements Runnable {
+
+    public static void main(String[] args) {
+        System.setProperty("java.awt.headless", "false");
+        int exitCode = new CommandLine(new RootCommand()).execute(args);
+        System.exit(exitCode);
+    }
 
     @CommandLine.Option(names = {"-h", "--help"}, description = "Shows the available commands!")
     boolean help;
