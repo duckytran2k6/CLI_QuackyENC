@@ -1,0 +1,94 @@
+name: Package QuackyENC for All Platforms
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  package-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java 23
+        uses: actions/setup-java@v4
+        with:
+          distribution: oracle
+          java-version: '23'
+      - name: Build with Maven
+        run: mvn clean package
+      - name: Package with jpackage (Windows)
+        run: |
+          jpackage --type exe \
+                   --input target \
+                   --dest output \
+                   --name QuackyENC \
+                   --main-jar quackyenc-final.jar \
+                   --main-class com.duckycryptography.cli.RootCommand \
+                   --vendor "Vuong Tran" \
+                   --app-version ${{ github.ref_name }} \
+                   --win-console \
+                   --description "CLI multi text file encryption tool"
+      - uses: softprops/action-gh-release@v1
+        with:
+          files: output/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  package-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java 23
+        uses: actions/setup-java@v4
+        with:
+          distribution: oracle
+          java-version: '23'
+      - name: Build with Maven
+        run: mvn clean package
+      - name: Package with jpackage (macOS)
+        run: |
+          jpackage --type dmg \
+                   --input target \
+                   --dest output \
+                   --name QuackyENC \
+                   --main-jar quackyenc-final.jar \
+                   --main-class com.duckycryptography.cli.RootCommand \
+                   --vendor "Vuong Tran" \
+                   --app-version ${{ github.ref_name }} \
+                   --description "CLI multi text file encryption tool"
+      - uses: softprops/action-gh-release@v1
+        with:
+          files: output/*.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  package-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install JDK 23
+        run: |
+          sudo apt update && sudo apt install wget tar -y
+          wget https://download.oracle.com/java/23/latest/jdk-23_linux-x64_bin.tar.gz
+          tar -xzf jdk-23_linux-x64_bin.tar.gz
+          echo "JAVA_HOME=$(pwd)/jdk-23" >> $GITHUB_ENV
+          echo "$(pwd)/jdk-23/bin" >> $GITHUB_PATH
+      - name: Build with Maven
+        run: mvn clean package
+      - name: Package with jpackage (Linux)
+        run: |
+          jpackage --type deb \
+                   --input target \
+                   --dest output \
+                   --name QuackyENC \
+                   --main-jar quackyenc-final.jar \
+                   --main-class com.duckycryptography.cli.RootCommand \
+                   --vendor "Vuong Tran" \
+                   --app-version ${{ github.ref_name }} \
+                   --description "CLI multi text file encryption tool"
+      - uses: softprops/action-gh-release@v1
+        with:
+          files: output/*.deb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
