@@ -3,7 +3,7 @@ name: Package QuackyENC for All Platforms
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - '*.*.*'
 
 jobs:
   package-windows:
@@ -19,16 +19,7 @@ jobs:
         run: mvn clean package
       - name: Package with jpackage (Windows)
         run: |
-          jpackage --type exe \
-                   --input target \
-                   --dest output \
-                   --name QuackyENC \
-                   --main-jar quackyenc-final.jar \
-                   --main-class com.duckycryptography.cli.RootCommand \
-                   --vendor "Vuong Tran" \
-                   --app-version ${{ github.ref_name }} \
-                   --win-console \
-                   --description "CLI multi text file encryption tool"
+          jpackage --type exe --input target  --dest output  --name QuackyENC  --main-jar quackyenc-final.jar --main-class com.duckycryptography.cli.RootCommand --vendor "Vuong Tran" --app-version v${{ github.ref_name }} --win-console --description "CLI multi text file encryption tool"
       - uses: softprops/action-gh-release@v1
         with:
           files: output/*.exe
