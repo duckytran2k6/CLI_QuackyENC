@@ -19,7 +19,7 @@ jobs:
         run: mvn clean package
       - name: Package with jpackage (Windows)
         run: |
-          jpackage --type exe --input target  --dest output  --name QuackyENC  --main-jar quackyenc-final.jar --main-class com.duckycryptography.cli.RootCommand --vendor "Vuong Tran" --app-version v${{ github.ref_name }} --win-console --description "CLI multi text file encryption tool"
+          jpackage --type exe --input target  --dest output  --name QuackyENC  --main-jar quackyenc-final.jar --main-class com.duckycryptography.cli.RootCommand --vendor "Vuong Tran" --app-version ${{ github.ref_name }} --win-console --description "CLI multi text file encryption tool"
       - uses: softprops/action-gh-release@v1
         with:
           files: output/*.exe
@@ -48,8 +48,10 @@ jobs:
                    --vendor "Vuong Tran" \
                    --app-version ${{ github.ref_name }} \
                    --description "CLI multi text file encryption tool"
-      - uses: softprops/action-gh-release@v1
+      - name: Release
+        uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ github.ref_name }}
           files: output/*.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -76,8 +78,10 @@ jobs:
                    --vendor "Vuong Tran" \
                    --app-version ${{ github.ref_name }} \
                    --description "CLI multi text file encryption tool"
-      - uses: softprops/action-gh-release@v1
+      - name: Release
+        uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ github.ref_name }}
           files: output/*.deb
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
