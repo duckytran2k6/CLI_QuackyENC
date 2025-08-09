@@ -13,7 +13,7 @@ import java.security.PrivateKey;
 import java.util.List;
 import java.util.UUID;
 
-public class    DecryptService {
+public class DecryptService {
     private final String TEMP_FILE_PATH = System.getProperty("java.io.tmpdir") + File.separator;
 
     public File decryptWithPassword(List<File> encryptedFile, File IVFile, File saltFile, String password) throws Exception {
