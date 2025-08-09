@@ -21,10 +21,31 @@
 
 💡 _Note: The first time you run the tool, macOS Gatekeeper may warn you that it's from an unidentified developer. See the Gatekeeper Bypass section below for further set-up._
 
+### ⚙️ **Step 3: Check the tool functionality:**
+- After installing the tool, execute these commands:
+    1. Open the terminal and change the directory to your tool .app file: cd /Applications/QuackyENC.app/Contents/MacOS
+    2. Then run: ./QuackyENC -h
+    ^ Once you execute the command, you should see a list of available commands of the tool which can be executed in the order: 
+./QuackyENC [COMMAND] [OPTION]
+
+💡 If you see a "permission denied" error, make it executable: chmod +x QuackyENC
+
+### ⚙️ **Optional: Add QuackyENC to the system PATH**
+If you want to run the tool from any Terminal window without changing directories, please execute the following command in your Terminal:
+-   For zsh (default on macOS Catalina and later):
+    1. echo 'export PATH="/Applications/QuackyENC.app/Contents/MacOS:$PATH"' >> ~/.zshrc
+    2. source ~/.zshrc
+
+-   For bash:
+    1. echo 'export PATH="/Applications/QuackyENC.app/Contents/MacOS:$PATH"' >> ~/.bash_profile
+    2. source ~/.bash_profile
+
+After that, you can run: QuackyENC [COMMAND] [OPTION] from any Terminal window you open.
+
 ### 🛠 **First Launch Set-up (Bypass Gatekeeper)**
-🔒 Security Notice:
+🔒 **Security Notice:**
 When opening QuackyENC for the first time, macOS may warn:
-    “QuackyENC can’t be opened because it is from an unidentified developer.”
+“QuackyENC can’t be opened because it is from an unidentified developer.”
 This warning is normal for open-source apps not signed with Apple’s paid Developer ID.
 
 * ✅ QuackyENC is open-source — view the source code at [https://github.com/duckytran2k6/CLI_QuackyENC].
@@ -36,22 +57,3 @@ To run it, please do the following:
 2. Scroll down to the Security section.
 3. You'll see a message about QuackyENC being blocked - click "Open Anyway".
 4. In the confirmation dialog, click "Open" again.
-
-### ⚙️ **Step 3: Check the tool functionality:**
-- After installing the tool, execute these commands:
-    1. Open the terminal and change the directory to your tool .app file: cd /Applications/QuackyENC.app/Contents/MacOS
-    2. Then run: ./QuackyENC -h
-    ^ Once you execute the command, you should see a list of available commands of the tool which can be executed in the order: ./QuackyENC [COMMAND] [OPTION]
-
-💡 If you see a "permission denied" error, make it executable: chmod +x QuackyENC
-
-### ⚙️ **Optional: Add QuackyENC to the system PATH**
-If you want to run the tool from any Terminal window without changing directories, please execute the following command in your Terminal:
-    - For zsh (default on macOS Catalina and later):
-        echo 'export PATH="/Applications/QuackyENC.app/Contents/MacOS:$PATH"' >> ~/.zshrc
-        source ~/.zshrc
-    - For bash:
-        echo 'export PATH="/Applications/QuackyENC.app/Contents/MacOS:$PATH"' >> ~/.bash_profile
-        source ~/.bash_profile
-
-After that, you can run: QuackyENC [COMMAND] [OPTION] from any Terminal window you open.
