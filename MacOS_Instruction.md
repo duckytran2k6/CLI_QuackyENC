@@ -27,9 +27,9 @@ When opening QuackyENC for the first time, macOS may warn:
     “QuackyENC can’t be opened because it is from an unidentified developer.”
 This warning is normal for open-source apps not signed with Apple’s paid Developer ID.
 
-✅ QuackyENC is open-source — view the source code at [https://github.com/duckytran2k6/CLI_QuackyENC]
-✅ You can verify file integrity using the SHA256 checksum from the release page
-✅ QuackyENC does not modify system files or require admin privileges
+✅ QuackyENC is open-source — view the source code at [https://github.com/duckytran2k6/CLI_QuackyENC].
+✅ You can verify file integrity using the SHA256 checksum from the release page.
+✅ QuackyENC does not modify system files or require admin privileges.
 
 To run it, please do the following:
 1. Open System Settings -> Privacy & Security.
