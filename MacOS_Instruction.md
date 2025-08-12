@@ -2,6 +2,11 @@
 
 ## _Please follow these steps to install and run the tool on macOS._
 
+### 🔒 **Security Notice:**
+* ✅ QuackyENC is open-source — view the source code at [https://github.com/duckytran2k6/CLI_QuackyENC].
+* ✅ You can verify file integrity using the SHA256 checksum from the release page.
+* ✅ QuackyENC does not modify system files or require admin privileges.
+
 ### ✅ **System Requirements:**
 - macOS 12.0 Monterey or newer.
 - Intel or Apple Silicon (M1/M2) CPU.
@@ -43,14 +48,9 @@ If you want to run the tool from any Terminal window without changing directorie
 After that, you can run: QuackyENC [COMMAND] [OPTION] from any Terminal window you open.
 
 ### 🛠 **First Launch Set-up (Bypass Gatekeeper)**
-🔒 **Security Notice:**
 When opening QuackyENC for the first time, macOS may warn:
-“QuackyENC can’t be opened because it is from an unidentified developer.”
+    “QuackyENC can’t be opened because it is from an unidentified developer.”
 This warning is normal for open-source apps not signed with Apple’s paid Developer ID.
-
-* ✅ QuackyENC is open-source — view the source code at [https://github.com/duckytran2k6/CLI_QuackyENC].
-* ✅ You can verify file integrity using the SHA256 checksum from the release page.
-* ✅ QuackyENC does not modify system files or require admin privileges.
 
 To run it, please do the following:
 1. Open System Settings -> Privacy & Security.

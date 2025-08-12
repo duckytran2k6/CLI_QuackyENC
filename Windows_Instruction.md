@@ -2,6 +2,11 @@
 
 ## _Please follow these steps to install and run the tool on Windows._
 
+### 🔒 **Security Notice:**
+* ✅ QuackyENC is open-source — view the source code at [https://github.com/duckytran2k6/CLI_QuackyENC].
+* ✅ You can verify file integrity using the SHA256 checksum from the release page.
+* ✅ QuackyENC does not modify system files or require admin privileges.
+
 ### ✅ **System Requirements:**
 - Windows 10 or newer (64-bit).
 - Stable internet connection (for downloading and verifying file if needed).
@@ -16,4 +21,24 @@
 2. Open the folder and find the **QuackyENC-1.0.0.exe** file.
 3. Double-click to install it.
 4. If Windows SmartScreen appears, select "Run Anyway".
-5. Once installed, check your "Program Files" folder in C drive and you should see a folder named "QuackyENC" with an .exe file in it.
+5. Once installed, check your "Program Files" folder in C drive, and you should see a folder named "QuackyENC" with an .exe file in it.
+
+### ⚙️ **Step 3: Check the tool functionality:**
+- After installing the tool, execute these commands:
+    1. Open the terminal and change the directory to your tool .exe file: cd C:/Program Files/QuackyENC
+    2. If you are using **Command Prompts**: QuackyENC.exe -h
+    3. If you are using **PowerShell**: .\QuackyENC.exe -h
+    ^ Once you execute the command, you should see a list of available commands of the tool which can be executed in the order:
+[COMMAND] [OPTION]
+
+### ⚙️ **Optional: Add QuackyENC to the system PATH**
+If you want to run the tool from any Terminal window without changing directories, please execute the following command in your Terminal:
+1. Open **Start** -> **Search** -> **Environment Variables**.
+2. Select **Edit the system environment variables**.
+3. Click **Environment Variables...**
+4. Locate inside the **User Variables** section, select **Path**.
+5. Click **Edit** -> **New** and add: C:/Program Files/QuackyENC
+6. Click **OK** and restart your terminal.
+
+After that, you can run: QuackyENC [COMMAND] [OPTION] from any Terminal window you open.
+        
