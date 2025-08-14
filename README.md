@@ -48,10 +48,10 @@ the process is finished.
 - Linux
 
 ## ❓ **For more info:** 
-### **_Download:**_ 
-- Click [here]() for more info on Windows installation.
-- Click [here]() for more info on macOS installation.
-- Click [here]() for more info on Linux installation.
+### **_Download:_** 
+- Click [here](Windows_Instruction.md) for more info on Windows installation.
+- Click [here](MacOS_Instruction.md) for more info on macOS installation.
+- Click [here](Linux_Instruction.md) for more info on Linux installation.
 
 ### **_Security:_**
 For more information on how QuackyENC handles the cryptography for each method, see the [Internals]() file for more technical details. If
