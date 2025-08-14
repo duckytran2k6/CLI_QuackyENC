@@ -5,7 +5,6 @@
 ### 🔒 **Security Notice:**
 * ✅ QuackyENC is open-source — view the source code at [https://github.com/duckytran2k6/CLI_QuackyENC].
 * ✅ You can verify file integrity using the SHA256 checksum from the release page.
-* ✅ QuackyENC does not modify system files or require admin privileges.
 
 ### ✅ **System Requirements:**
 - Ubuntu/Debian or any Debian-based distribution.
@@ -22,7 +21,12 @@ Perform these following commands:
     - unzip QuackyENC-1.0.0.zip
     - cd QuackyENC-1.0.0
 2. Locate the .deb file: QuackyENC-1.0.0.deb
-3. Install the .deb package: sudo apt install ./QuackyENC-1.0.0.deb
-4. Verify the installation: QuackyENC -h
+3. Install the tool: sudo dpkg -i QuackyENC-1.0.0.deb
+4. Fix any missing dependencies of the tool (recommended): sudo apt-get install -f
+
+### ⚙️ **Step 3: Check the tool functionality:**
+- After installing the tool, execute these commands to verify the installation: 
+   1. QuackyENC -h -> This will show you every available commands of the tool.
+   2. Once you execute the command, you should see a list of available commands of the tool which can be executed in the order: QuackyENC [COMMAND] [OPTION]
 
      

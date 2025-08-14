@@ -5,7 +5,6 @@
 ### 🔒 **Security Notice:**
 * ✅ QuackyENC is open-source — view the source code at [https://github.com/duckytran2k6/CLI_QuackyENC].
 * ✅ You can verify file integrity using the SHA256 checksum from the release page.
-* ✅ QuackyENC does not modify system files or require admin privileges.
 
 ### ✅ **System Requirements:**
 - Windows 10 or newer (64-bit).
@@ -28,7 +27,7 @@
     1. Open the terminal and change the directory to your tool .exe file: cd C:/Program Files/QuackyENC
     2. If you are using **Command Prompts**: QuackyENC.exe -h
     3. If you are using **PowerShell**: .\QuackyENC.exe -h
-    ^ Once you execute the command, you should see a list of available commands of the tool which can be executed in the order:
+    4. Once you execute the command, you should see a list of available commands of the tool which can be executed in the order:
 [COMMAND] [OPTION]
 
 ### ⚙️ **Optional: Add QuackyENC to the system PATH**
