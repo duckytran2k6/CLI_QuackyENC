@@ -6,7 +6,7 @@ import picocli.CommandLine;
 
 
 @CommandLine.Command(
-        name = "ducky-tool",
+        name = "Quacky-ENC",
         subcommands = {
                 EncryptCommand.class,
                 DecryptCommand.class,
@@ -32,9 +32,6 @@ public class RootCommand implements Runnable {
     @CommandLine.Option(names = {"-info", "--information"}, description = "Information and requirements for the tool!")
     boolean information;
 
-    @CommandLine.Option(names = {"-lim", "--limits"}, description = "Information about the default file and size limits!")
-    boolean limits;
-
     @Override
     public void run() {
         if (help) {
@@ -43,17 +40,12 @@ public class RootCommand implements Runnable {
         }
 
         if (version) {
-            System.out.println("QuackyENC Beta Release v1.0.0");
+            System.out.println("QuackyENC Release v1.0.0");
             return;
         }
 
         if (information) {
             CustomInfoDisplay.displayInfo();
-            return;
-        }
-
-        if (limits) {
-            System.out.println("The file type MUST BE a text file (.txt)\n Min-Max Files: 1-20\n Min-Max File Size: 1-100 MB");
             return;
         }
 
