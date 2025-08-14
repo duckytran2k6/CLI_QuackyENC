@@ -54,7 +54,7 @@ the process is finished.
 - Click [here](Linux_Instruction.md) for more info on Linux installation.
 
 ### **_Security:_**
-For more information on how QuackyENC handles the cryptography for each method, see the [Internals]() file for more technical details. If
+For more information on how QuackyENC handles the cryptography for each method, see the [Internals](Internals.md) file for more technical details. If
 you are worried about the file integrity when downloading the zip folder, you can always use the SHA256 checksum file provided in the 
 same release page that will be automatically update everytime a new version of the tool is being released. If you want to report about
-an issue/bug or even a vulnerability, please see the [SECURITY]() file for more details.
+an issue/bug or even a vulnerability, please see the [SECURITY](SECURITY.md) file for more details.
