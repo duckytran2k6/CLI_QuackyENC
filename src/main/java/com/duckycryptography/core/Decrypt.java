@@ -1,5 +1,7 @@
 package com.duckycryptography.core;
 
+import com.duckycryptography.service.CleanUpService;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
@@ -42,7 +44,11 @@ public class Decrypt {
     public static GCMParameterSpec loadIV (File ivFile) throws Exception{
         byte[] IVToByte = Files.readAllBytes(ivFile.toPath());
 
-        return new GCMParameterSpec(128, IVToByte);
+        GCMParameterSpec IV = new GCMParameterSpec(128, IVToByte);
+
+        CleanUpService.authCleanUp(IVToByte);
+
+        return IV;
     }
 
 }

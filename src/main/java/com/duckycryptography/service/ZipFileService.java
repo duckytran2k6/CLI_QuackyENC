@@ -53,15 +53,4 @@ public class ZipFileService {
 
         return zipFile;
     }
-
-    public static void postZipFileCleanUp(File sessionDir) {
-        File[] sessionContents = sessionDir.listFiles();
-        if (sessionContents != null) {
-            for (File file : sessionContents) {
-                postZipFileCleanUp(file);
-            }
-            System.out.println("Successfully cleaned up zip file.");
-        }
-        sessionDir.delete();
-    }
 }

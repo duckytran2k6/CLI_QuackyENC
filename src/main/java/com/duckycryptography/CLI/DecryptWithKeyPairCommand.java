@@ -1,7 +1,7 @@
 package com.duckycryptography.cli;
 
 import com.duckycryptography.service.DecryptService;
-import com.duckycryptography.service.FilesSelectService;
+import com.duckycryptography.service.FilesService;
 import com.duckycryptography.service.ValidityCheckerService;
 import picocli.CommandLine;
 
@@ -18,7 +18,7 @@ public class DecryptWithKeyPairCommand implements Runnable {
     @Override
     public void run() {
         try {
-            List<File> files = FilesSelectService.selectMultipleFiles("Select the files you want to be decrypted!");
+            List<File> files = FilesService.selectMultipleFiles("Select the files you want to be decrypted!");
 
             if (!ValidityCheckerService.checkListLimit(files)) {return;}
 
@@ -26,16 +26,16 @@ public class DecryptWithKeyPairCommand implements Runnable {
             File ivFile = null;
             File privateKeyFile = null;
             for (File file : files) {
-                if (ValidityCheckerService.checkFileExists(file, "encrypted_Key_IV.txt")) {
+                if (ValidityCheckerService.checkFileExists(file, "encrypted_Key.txt")) {
                     keyFile = file;
                 } else if (ValidityCheckerService.checkFileExists(file, "private.key")) {
                     privateKeyFile = file;
-                } else if (ValidityCheckerService.checkFileExists(file, "IV.txt")) {
+                } else if (ValidityCheckerService.checkFileExists(file, "iv.txt")) {
                     ivFile = file;
                 }
             }
 
-            if (!ValidityCheckerService.checkFile(keyFile, "keyIVFile") || !ValidityCheckerService.checkFile(privateKeyFile, "privateKeyFile")) {return;}
+            if (!ValidityCheckerService.checkFile(keyFile, "keyFile") || !ValidityCheckerService.checkFile(privateKeyFile, "privateKeyFile")) {return;}
 
             files.remove(keyFile);
             files.remove(privateKeyFile);

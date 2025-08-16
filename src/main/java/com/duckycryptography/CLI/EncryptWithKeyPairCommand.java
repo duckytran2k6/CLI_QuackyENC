@@ -1,6 +1,6 @@
 package com.duckycryptography.cli;
 import com.duckycryptography.service.EncryptService;
-import com.duckycryptography.service.FilesSelectService;
+import com.duckycryptography.service.FilesService;
 import com.duckycryptography.service.ValidityCheckerService;
 import picocli.CommandLine;
 
@@ -17,7 +17,7 @@ public class EncryptWithKeyPairCommand implements Runnable {
     @Override
     public void run() {
         try {
-            List<File> files = FilesSelectService.selectMultipleFiles("Select the files you want to be encrypted!");
+            List<File> files = FilesService.selectMultipleFiles("Select the files you want to be encrypted!");
 
             if (!ValidityCheckerService.checkListLimit(files)) {
                 return;

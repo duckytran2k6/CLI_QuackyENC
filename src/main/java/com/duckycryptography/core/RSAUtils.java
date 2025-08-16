@@ -1,5 +1,7 @@
 package com.duckycryptography.core;
 
+import com.duckycryptography.service.CleanUpService;
+
 import javax.crypto.*;
 import javax.crypto.spec.*;
 import java.io.File;
@@ -26,15 +28,21 @@ public class RSAUtils {
     public static String encrypt(SecretKey key, PublicKey publicKey) throws Exception {
         byte[] keyByte = key.getEncoded();
 
+        CleanUpService.authCleanUp(keyByte);
+
         Cipher encryptCip = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         encryptCip.init(Cipher.ENCRYPT_MODE, publicKey);
         byte[] encrypted = encryptCip.doFinal(keyByte);
 
-        return Base64.getEncoder().encodeToString(encrypted);
+        String encryptedKey = Base64.getEncoder().encodeToString(encrypted);
+
+        return encryptedKey;
     }
 
     public static DecryptedKey decrypt(String encryptedKey, PrivateKey privateKey) throws Exception {
         byte[] encryptedBytes = Base64.getDecoder().decode(encryptedKey);
+
+        CleanUpService.authCleanUp(encryptedBytes);
 
         Cipher decryptCip = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         decryptCip.init(Cipher.DECRYPT_MODE, privateKey);

@@ -15,7 +15,7 @@ import java.util.UUID;
 public class EncryptService {
     private final String TEMP_FILE_PATH = System.getProperty("java.io.tmpdir") + File.separator;
 
-    public File encryptDataWithPassword(List<File> files, String password) {
+    public File encryptDataWithPassword(List<File> files, char[] password) {
 
         String sessionID = UUID.randomUUID().toString();
         File sessionDir = new File(TEMP_FILE_PATH + sessionID + File.separator);
@@ -27,12 +27,14 @@ public class EncryptService {
         try {
             byte[] salt = Encrypt.generateSalt();
             SecretKey aesKey = PasswordDeriveUtils.derivedFromPassword(password, salt);
+            CleanUpService.passwordWipe(password);
             GCMParameterSpec IV = Encrypt.genIV();
 
             for (int i = 0; i < files.size(); i++) {
                 File inputFile = files.get(i);
                 if (ValidityCheckerService.checkFile(inputFile, "File #" + (i + 1) + " (" + (inputFile != null ? inputFile.getName() : "unknown") + ")")) {
-                    File encryptedFile = new File(sessionDir,inputFile.getName() + ".enc");
+                    String newFileName = FilesService.renamePlainFile(inputFile.getName());
+                    File encryptedFile = new File(sessionDir,newFileName);
                     Encrypt.FileEncrypt(aesKey, IV, inputFile, encryptedFile);
                 }
             }
@@ -46,15 +48,19 @@ public class EncryptService {
             }
 
             File zipFile = ZipFileService.prepareZipFile(sessionDir, "encrypted.zip");
-            System.out.println("Encryption successfully! The encrypted zip file is saved to : " + zipFile.getAbsolutePath());
 
-            return zipFile;
+            if (zipFile == null) {
+                System.out.println("Encryption failed: no files have been added to the zip file!");
+                return null;
+            } else {
+                System.out.println("Encryption successfully! The encrypted zip file is saved to : " + zipFile.getAbsolutePath());
+                return zipFile;
+            }
         } catch (Exception e) {
             System.err.println("Encryption failed: " + e.getMessage());
             return null;
         } finally {
-            ZipFileService.postZipFileCleanUp(sessionDir);
-
+            CleanUpService.tempSessionDirCleanUp(sessionDir);
         }
     }
 
@@ -74,7 +80,8 @@ public class EncryptService {
             for (int i = 0; i < files.size(); i++) {
                 File inputFile = files.get(i);
                 if (ValidityCheckerService.checkFile(inputFile, "File #" + (i + 1) + " (" + (inputFile != null ? inputFile.getName() : "unknown") + ")")) {
-                    File encryptedFile = new File(sessionDir,inputFile.getName() + ".enc");
+                    String newFileName = FilesService.renamePlainFile(inputFile.getName());
+                    File encryptedFile = new File(sessionDir,newFileName);
                     Encrypt.FileEncrypt(aesKey, IV, inputFile, encryptedFile);
                 }
             }
@@ -88,14 +95,19 @@ public class EncryptService {
             }
 
             File zipFile = ZipFileService.prepareZipFile(sessionDir, "encrypted.zip");
-            System.out.println("Encryption successfully! The encrypted zip file is saved to : " + zipFile.getAbsolutePath());
 
-            return zipFile;
+            if (zipFile == null) {
+                System.out.println("Encryption failed: no files have been added to the zip file!");
+                return null;
+            } else {
+                System.out.println("Encryption successfully! The encrypted zip file is saved to : " + zipFile.getAbsolutePath());
+                return zipFile;
+            }
         } catch (Exception e) {
             System.err.println("Encryption failed: " + e.getMessage());
             return null;
         } finally {
-            ZipFileService.postZipFileCleanUp(sessionDir);
+            CleanUpService.tempSessionDirCleanUp(sessionDir);
         }
     }
 }

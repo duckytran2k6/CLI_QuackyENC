@@ -15,7 +15,7 @@ import java.util.UUID;
 public class DecryptService {
     private final String TEMP_FILE_PATH = System.getProperty("java.io.tmpdir") + File.separator;
 
-    public File decryptWithPassword(List<File> encryptedFile, File ivFile, File saltFile, String password) throws Exception {
+    public File decryptWithPassword(List<File> encryptedFile, File ivFile, File saltFile, char[] password) throws Exception {
         String sessionID = UUID.randomUUID().toString();
         File sessionDir = new File(TEMP_FILE_PATH + sessionID + File.separator);
         sessionDir.mkdirs();
@@ -23,12 +23,15 @@ public class DecryptService {
         try {
             byte[] saltToByte = Files.readAllBytes(saltFile.toPath());
 
+
             SecretKey aesKey = PasswordDeriveUtils.derivedFromPassword(password, saltToByte);
+            CleanUpService.passwordWipe(password);
 
             for (int i = 0; i < encryptedFile.size(); i++) {
                 File inputFile = encryptedFile.get(i);
                 if (ValidityCheckerService.checkFile(inputFile, "File #" + (i + 1) + " (" + (inputFile != null ? inputFile.getName() : "unknown") + ")")) {
-                    File decryptedFile = new File(sessionDir, inputFile.getName() + ".txt");
+                    String newFileName = FilesService.renameEncryptedFile(inputFile.getName());
+                    File decryptedFile = new File(sessionDir, newFileName);
                     Decrypt.FileDecrypt(aesKey, ivFile, inputFile, decryptedFile);
                 }
             }
@@ -41,6 +44,8 @@ public class DecryptService {
         } catch (Exception e) {
             System.err.println("Decryption failed: " + e.getMessage());
             return null;
+        } finally {
+            CleanUpService.tempSessionDirCleanUp(sessionDir);
         }
     }
 
@@ -57,7 +62,8 @@ public class DecryptService {
             for (int i = 0; i < encryptedFile.size(); i++) {
                 File inputFile = encryptedFile.get(i);
                 if (ValidityCheckerService.checkFile(inputFile, "File #" + (i + 1) + " (" + (inputFile != null ? inputFile.getName() : "unknown") + ")")) {
-                    File decryptedFile = new File(sessionDir, "decrypted.txt");
+                    String newFileName = FilesService.renameEncryptedFile(inputFile.getName());
+                    File decryptedFile = new File(sessionDir, newFileName);
                     Decrypt.FileDecrypt(decryptedKey.getSecKey(), ivFile, inputFile, decryptedFile);
                 }
             }
@@ -69,6 +75,8 @@ public class DecryptService {
         } catch (Exception e) {
             System.err.println("Decryption failed: " + e.getMessage());
             return null;
+        } finally {
+            CleanUpService.tempSessionDirCleanUp(sessionDir);
         }
     }
 

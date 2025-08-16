@@ -11,14 +11,12 @@ import java.security.SecureRandom;
 
 public class Encrypt {
 
-    //  Generate the secret key
     public static SecretKey SecKey() throws Exception {
         KeyGenerator Keygenerator = KeyGenerator.getInstance("AES");
         Keygenerator.init(256);
         return Keygenerator.generateKey();
     }
 
-    //  Generate the IV
     public static GCMParameterSpec genIV() {
         byte[] IV = new byte[12];
         SecureRandom random = new SecureRandom();
@@ -53,7 +51,7 @@ public class Encrypt {
         outputStream.close();
     }
 
-    public static byte[] generateSalt() throws Exception {
+    public static byte[] generateSalt() {
         SecureRandom saltRandom = new SecureRandom();
         byte[] salt = new byte[16];
         saltRandom.nextBytes(salt);

@@ -1,7 +1,7 @@
 package com.duckycryptography.cli;
 
 import com.duckycryptography.service.DecryptService;
-import com.duckycryptography.service.FilesSelectService;
+import com.duckycryptography.service.FilesService;
 import com.duckycryptography.service.ValidityCheckerService;
 import picocli.CommandLine;
 
@@ -15,20 +15,20 @@ import java.util.List;
 
 public class DecryptWithPasswordCommand implements Runnable {
 
-    @CommandLine.Option(names = {"-pw", "password"}, required = true, description = "Please enter the correct password!")
-    private String password;
+    @CommandLine.Option(names = {"-pw", "password"}, interactive = true, arity = "0..1", description = "Please enter the correct password!")
+    private char[] password;
 
     @Override
     public void run() {
         try {
-            List<File> files = FilesSelectService.selectMultipleFiles("Select the files you want to be decrypted!");
+            List<File> files = FilesService.selectMultipleFiles("Select the files you want to be decrypted!");
 
             if (!ValidityCheckerService.checkListLimit(files)) {return;}
 
             File iv = null;
             File salt = null;
             for (File file : files) {
-                if (ValidityCheckerService.checkFileExists(file, "IV.txt")) {
+                if (ValidityCheckerService.checkFileExists(file, "iv.txt")) {
                     iv = file;
                 } else if (ValidityCheckerService.checkFileExists(file, "salt.txt")) {
                     salt = file;
@@ -37,8 +37,7 @@ public class DecryptWithPasswordCommand implements Runnable {
 
             if (!ValidityCheckerService.checkFile(iv, "IV") || !ValidityCheckerService.checkFile(salt, "salt")) {return;}
 
-            if (!ValidityCheckerService.validPassword(password)) {
-                System.err.println("Please provide a valid password!");
+            if (ValidityCheckerService.validPassword(password)) {
                 return;
             }
 

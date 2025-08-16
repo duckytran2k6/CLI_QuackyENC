@@ -1,7 +1,7 @@
 package com.duckycryptography.cli;
 
 import com.duckycryptography.service.EncryptService;
-import com.duckycryptography.service.FilesSelectService;
+import com.duckycryptography.service.FilesService;
 import com.duckycryptography.service.ValidityCheckerService;
 import picocli.CommandLine;
 
@@ -15,20 +15,19 @@ import java.util.List;
 
 public class EncryptWithPasswordCommand implements Runnable {
 
-    @CommandLine.Option(names = {"-pw", "--password"}, required = true, description = "Please enter a password with a minimum of 8 characters!")
-    private String password;
+    @CommandLine.Option(names = {"-pw", "--password"}, interactive = true, arity = "0..1", description = "Please enter a password with a minimum of 8 characters!")
+    private char[] password;
 
     @Override
     public void run() {
         try {
-            List<File> files = FilesSelectService.selectMultipleFiles("Select the files you want to be encrypted!");
+            List<File> files = FilesService.selectMultipleFiles("Select the files you want to be encrypted!");
 
             if (!ValidityCheckerService.checkListLimit(files)) {
                 return;
             }
 
-            if (!ValidityCheckerService.validPassword(password)) {
-                System.err.println("Please provide a valid password!");
+            if (ValidityCheckerService.validPassword(password)) {
                 return;
             }
 
