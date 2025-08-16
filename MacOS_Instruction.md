@@ -14,14 +14,13 @@
 ### 📥 **Step 1: Download the Tool's zip folder**
 - Download the latest zip folder from the **[GitHub Releases](https://github.com/duckytran2k6/CLI_QuackyENC/releases)** page.
 - Choose the latest version.
-- Under the **Assets** section, download the QuackyENC_macOS.zip folder.
+- Under the **Assets** section, download the **QuackyENC-1.0.0.dmg** file.
 
 ### 🖱️ **Step 2: Install the Tool**
-1. Unzip the downloaded folder (if it’s compressed).
-2. Open the folder and find the **QuackyENC-1.0.0.dmg** file.
-3. Double-click to mount it.
-4. In the window that appears, drag the QuackyENC icon into the Application folder.
-5. Eject the mounted disk image by dragging it to Trash or right-clicking → Eject.
+1. Locate the **QuackyENC-1.0.0.dmg** file.
+2. Double-click to mount it.
+3. In the window that appears, drag the QuackyENC icon into the Application folder.
+4. Eject the mounted disk image by dragging it to Trash or right-clicking → Eject.
 
 💡 _Note: The first time you run the tool, macOS Gatekeeper may warn you that it's from an unidentified developer. See the Gatekeeper Bypass section below for further set-up._
 

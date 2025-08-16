@@ -6,10 +6,13 @@ import javax.crypto.spec.GCMParameterSpec;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.nio.file.Files;
 
 public class Decrypt {
 
-    public static void FileDecrypt(SecretKey key, GCMParameterSpec IV, File inFile, File outFile) throws Exception{
+    public static void FileDecrypt(SecretKey key, File ivFile, File inFile, File outFile) throws Exception {
+
+        GCMParameterSpec IV = Decrypt.loadIV(ivFile);
 
         Cipher decryptionCip = Cipher.getInstance("AES/GCM/NoPadding");
         decryptionCip.init(Cipher.DECRYPT_MODE, key, IV);
@@ -34,6 +37,12 @@ public class Decrypt {
 
         inputStream.close();
         outputStream.close();
+    }
+
+    public static GCMParameterSpec loadIV (File ivFile) throws Exception{
+        byte[] IVToByte = Files.readAllBytes(ivFile.toPath());
+
+        return new GCMParameterSpec(128, IVToByte);
     }
 
 }

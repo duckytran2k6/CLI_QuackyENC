@@ -22,23 +22,27 @@ public class DecryptWithKeyPairCommand implements Runnable {
 
             if (!ValidityCheckerService.checkListLimit(files)) {return;}
 
-            File keyivFile = null;
+            File keyFile = null;
+            File ivFile = null;
             File privateKeyFile = null;
             for (File file : files) {
                 if (ValidityCheckerService.checkFileExists(file, "encrypted_Key_IV.txt")) {
-                    keyivFile = file;
+                    keyFile = file;
                 } else if (ValidityCheckerService.checkFileExists(file, "private.key")) {
                     privateKeyFile = file;
+                } else if (ValidityCheckerService.checkFileExists(file, "IV.txt")) {
+                    ivFile = file;
                 }
             }
 
-            if (!ValidityCheckerService.checkFile(keyivFile, "keyIVFile") || !ValidityCheckerService.checkFile(privateKeyFile, "privateKeyFile")) {return;}
+            if (!ValidityCheckerService.checkFile(keyFile, "keyIVFile") || !ValidityCheckerService.checkFile(privateKeyFile, "privateKeyFile")) {return;}
 
-            files.remove(keyivFile);
+            files.remove(keyFile);
             files.remove(privateKeyFile);
+            files.remove(ivFile);
 
             DecryptService dKP = new DecryptService();
-            dKP.decryptWithKeyPair(files, keyivFile, privateKeyFile);
+            dKP.decryptWithKeyPair(files, keyFile, ivFile, privateKeyFile);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

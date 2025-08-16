@@ -15,46 +15,35 @@ public class RSAUtils {
         return pairKeys.generateKeyPair();
     }
 
-    public static void saveEncryptedKeyIV(String encryptedKeyIV, File file) throws Exception {
-        Files.writeString(file.toPath(), encryptedKeyIV);
+    public static void saveEncryptedKey(String encryptedKey, File file) throws Exception {
+        Files.writeString(file.toPath(), encryptedKey);
     }
 
-    public static String loadEncryptedKeyIV(File file) throws Exception {
+    public static String loadEncryptedKey(File file) throws Exception {
         return Files.readString(file.toPath());
     }
 
-    public static String encrypt(SecretKey key, GCMParameterSpec IV, PublicKey publicKey) throws Exception {
+    public static String encrypt(SecretKey key, PublicKey publicKey) throws Exception {
         byte[] keyByte = key.getEncoded();
-        byte[] IVByte = IV.getIV();
-        byte[] combined = new byte[keyByte.length + IVByte.length];
-
-        System.arraycopy(keyByte, 0, combined, 0, keyByte.length);
-        System.arraycopy(IVByte, 0, combined, keyByte.length, IVByte.length);
 
         Cipher encryptCip = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         encryptCip.init(Cipher.ENCRYPT_MODE, publicKey);
-        byte[] encrypted = encryptCip.doFinal(combined);
+        byte[] encrypted = encryptCip.doFinal(keyByte);
 
         return Base64.getEncoder().encodeToString(encrypted);
     }
 
-    public static DecryptedKeyIV decrypt(String encryptedData, PrivateKey privateKey) throws Exception {
-        byte[] encryptedBytes = Base64.getDecoder().decode(encryptedData);
+    public static DecryptedKey decrypt(String encryptedKey, PrivateKey privateKey) throws Exception {
+        byte[] encryptedBytes = Base64.getDecoder().decode(encryptedKey);
 
         Cipher decryptCip = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         decryptCip.init(Cipher.DECRYPT_MODE, privateKey);
-        byte[] combined = decryptCip.doFinal(encryptedBytes);
 
-        byte[] keyByte = new byte[32];
-        byte[] IVByte = new byte[12];
-
-        System.arraycopy(combined, 0, keyByte, 0, 32);
-        System.arraycopy(combined, 32, IVByte, 0, 12);
+        byte[] keyByte = decryptCip.doFinal(encryptedBytes);
 
         SecretKey SecKey = new SecretKeySpec(keyByte, "AES");
-        GCMParameterSpec IV = new GCMParameterSpec(128, IVByte);
 
-        return new DecryptedKeyIV(SecKey, IV);
+        return new DecryptedKey(SecKey);
     }
 
 }

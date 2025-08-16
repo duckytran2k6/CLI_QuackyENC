@@ -13,14 +13,12 @@ import java.util.List;
 import java.util.UUID;
 
 public class EncryptService {
-    //    Using the .getProperty() method to retrieve the value of a system property (ex. Window/Mac/Linux) then use the java property to create a temp folder directory.
     private final String TEMP_FILE_PATH = System.getProperty("java.io.tmpdir") + File.separator;
 
-    public File encryptDataWithPassword(List<File> files, String password) throws Exception {
+    public File encryptDataWithPassword(List<File> files, String password) {
 
         String sessionID = UUID.randomUUID().toString();
         File sessionDir = new File(TEMP_FILE_PATH + sessionID + File.separator);
-//          Create the new file directory along with it.
         sessionDir.mkdirs();
 
         File ivFile = new File(sessionDir,"IV.txt");
@@ -60,14 +58,14 @@ public class EncryptService {
         }
     }
 
-    public File encryptDataWithKeyPair(List<File> files, File key) throws Exception {
+    public File encryptDataWithKeyPair(List<File> files, File key) {
 
         String sessionID = UUID.randomUUID().toString();
         File sessionDir = new File(TEMP_FILE_PATH + sessionID + File.separator);
-//          Create the new file directory along with it.
         sessionDir.mkdirs();
 
-        File encKeyIVFile = new File(sessionDir, "encrypted_Key_IV.txt");
+        File encKeyFile = new File(sessionDir, "encrypted_Key.txt");
+        File ivFile = new File(sessionDir,"IV.txt");
 
         try {
             SecretKey aesKey = Encrypt.SecKey();
@@ -82,8 +80,12 @@ public class EncryptService {
             }
 
             PublicKey publicKey = KeyPairService.loadPublicKey(key);
-            String encryptedKeyIV = RSAUtils.encrypt(aesKey, IV, publicKey);
-            RSAUtils.saveEncryptedKeyIV(encryptedKeyIV, encKeyIVFile);
+            String encryptedKey = RSAUtils.encrypt(aesKey, publicKey);
+            RSAUtils.saveEncryptedKey(encryptedKey, encKeyFile);
+
+            try (FileOutputStream IVoutput = new FileOutputStream(ivFile)) {
+                IVoutput.write(IV.getIV());
+            }
 
             File zipFile = ZipFileService.prepareZipFile(sessionDir, "encrypted.zip");
             System.out.println("Encryption successfully! The encrypted zip file is saved to : " + zipFile.getAbsolutePath());

@@ -13,16 +13,13 @@
 ### 📥 **Step 1: Download the Tool's zip folder**
 - Download the latest zip folder from the **[GitHub Releases](https://github.com/duckytran2k6/CLI_QuackyENC/releases)** page.
 - Choose the latest version.
-- Under the **Assets** section, download the QuackyENC_Linux.zip folder.
+- Under the **Assets** section, download the **QuackyENC-1.0.0.deb** file.
 
 ### 🖱️ **Step 2: Install the Tool**
 Perform these following commands:
-1. Unzip the downloaded folder (if it’s compressed): 
-    - unzip QuackyENC-1.0.0.zip
-    - cd QuackyENC-1.0.0
-2. Locate the .deb file: QuackyENC-1.0.0.deb
-3. Install the tool: sudo dpkg -i QuackyENC-1.0.0.deb
-4. Fix any missing dependencies of the tool (recommended): sudo apt-get install -f
+1. Locate the .deb file: QuackyENC-1.0.0.deb
+2. Install the tool: sudo dpkg -i QuackyENC-1.0.0.deb
+3. Fix any missing dependencies of the tool (recommended): sudo apt-get install -f
 
 ### ⚙️ **Step 3: Check the tool functionality:**
 - After installing the tool, execute these commands to verify the installation: 
