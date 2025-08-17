@@ -27,7 +27,6 @@ public class EncryptService {
         try {
             byte[] salt = Encrypt.generateSalt();
             SecretKey aesKey = PasswordDeriveUtils.derivedFromPassword(password, salt);
-            CleanUpService.passwordWipe(password);
             GCMParameterSpec IV = Encrypt.genIV();
 
             for (int i = 0; i < files.size(); i++) {

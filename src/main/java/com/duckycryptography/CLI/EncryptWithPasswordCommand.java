@@ -27,7 +27,8 @@ public class EncryptWithPasswordCommand implements Runnable {
                 return;
             }
 
-            if (ValidityCheckerService.validPassword(password)) {
+            if (!ValidityCheckerService.validPassword(password)) {
+                System.out.println("Invalid password!");
                 return;
             }
 

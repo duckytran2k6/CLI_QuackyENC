@@ -11,7 +11,7 @@ public class CleanUpService {
             for (File file : sessionContents) {
                 tempSessionDirCleanUp(file);
             }
-            System.out.println("Successfully cleaned up zip file.");
+            System.out.println("Successfully cleaned up temp session files.");
         }
         sessionDir.delete();
     }

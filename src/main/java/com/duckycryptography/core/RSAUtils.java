@@ -28,8 +28,6 @@ public class RSAUtils {
     public static String encrypt(SecretKey key, PublicKey publicKey) throws Exception {
         byte[] keyByte = key.getEncoded();
 
-        CleanUpService.authCleanUp(keyByte);
-
         Cipher encryptCip = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         encryptCip.init(Cipher.ENCRYPT_MODE, publicKey);
         byte[] encrypted = encryptCip.doFinal(keyByte);
@@ -42,12 +40,11 @@ public class RSAUtils {
     public static DecryptedKey decrypt(String encryptedKey, PrivateKey privateKey) throws Exception {
         byte[] encryptedBytes = Base64.getDecoder().decode(encryptedKey);
 
-        CleanUpService.authCleanUp(encryptedBytes);
-
         Cipher decryptCip = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         decryptCip.init(Cipher.DECRYPT_MODE, privateKey);
-
         byte[] keyByte = decryptCip.doFinal(encryptedBytes);
+
+        CleanUpService.authCleanUp(encryptedBytes);
 
         SecretKey SecKey = new SecretKeySpec(keyByte, "AES");
 

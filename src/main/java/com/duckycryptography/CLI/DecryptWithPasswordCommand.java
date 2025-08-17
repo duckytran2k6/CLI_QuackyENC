@@ -37,7 +37,8 @@ public class DecryptWithPasswordCommand implements Runnable {
 
             if (!ValidityCheckerService.checkFile(iv, "IV") || !ValidityCheckerService.checkFile(salt, "salt")) {return;}
 
-            if (ValidityCheckerService.validPassword(password)) {
+            if (!ValidityCheckerService.validPassword(password)) {
+                System.out.println("Invalid password!");
                 return;
             }
 

@@ -62,25 +62,12 @@ public class ValidityCheckerService {
         for (char c : password) {
             if (Character.isLowerCase(c)) {
                 hasLower = true;
-            } else {
-                System.out.println("Must have at least one lowercase letter!");
-            }
-            if (Character.isUpperCase(c)) {
+            } else if (Character.isUpperCase(c)) {
                 hasUpper = true;
-            } else {
-                System.out.println("Must have at least one uppercase letter!");
-            }
-
-            if (Character.isDigit(c)) {
+            } else if (Character.isDigit(c)) {
                 hasDigit = true;
             } else {
-                System.out.println("Must have at least one digit (0-9)!");
-            }
-
-            if (hasLower) {
                 hasSpecial = true;
-            } else {
-                System.out.println("Must have at least one special letter!");
             }
         }
 

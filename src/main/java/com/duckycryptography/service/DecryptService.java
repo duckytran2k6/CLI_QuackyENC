@@ -23,7 +23,6 @@ public class DecryptService {
         try {
             byte[] saltToByte = Files.readAllBytes(saltFile.toPath());
 
-
             SecretKey aesKey = PasswordDeriveUtils.derivedFromPassword(password, saltToByte);
             CleanUpService.passwordWipe(password);
 
