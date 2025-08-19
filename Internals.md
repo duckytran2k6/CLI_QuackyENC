@@ -28,14 +28,14 @@ layer before gaining the access to the encrypted main data. An Initialization Ve
 a nonce for each encryption operation, ensures that in case of the same data is being encrypted with the same secret key will produce different
 ciphertexts each time.
 
-## _**Password-based method**_
+## _**1. Password-based method**_
 This is the more simple method as you only need to come up with a password that you will share it along with the other auth info files included
 in the zip folder. The way this works is that the user enter a valid password, then upload all the text files they want to be encrypted. Then, 
 those encrypted text files, a salt file, and an IV file. A salt is a random 16-bytes generated which will be added to the password before
 hashing. The RSA algorithm will turn the plain-text password into a strong cryptographic key and derive it as explained above. Once the user
 get the key, combining it with the IV, the program will use it to decrypt the main encrypted data.
 
-## _**Key Pair-based method**_
+## _**2. Key Pair-based method**_
 For this method, it is a bit more complicated as it requires an initial step from the receiver. The receiver will need to use the key pair 
 generator to get a pair of public and private keys. Then, the receiver will send the public key file to the sender which will be used to 
 encrypt the data. Once the sender uploaded the text files with the public key file, the tool generates a 256-bytes AES secret key and encrypts
