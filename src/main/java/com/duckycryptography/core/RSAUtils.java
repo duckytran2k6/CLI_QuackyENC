@@ -28,7 +28,7 @@ public class RSAUtils {
     public static String encrypt(SecretKey key, PublicKey publicKey) throws Exception {
         byte[] keyByte = key.getEncoded();
 
-        Cipher encryptCip = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        Cipher encryptCip = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
         encryptCip.init(Cipher.ENCRYPT_MODE, publicKey);
         byte[] encrypted = encryptCip.doFinal(keyByte);
 
@@ -40,7 +40,7 @@ public class RSAUtils {
     public static DecryptedKey decrypt(String encryptedKey, PrivateKey privateKey) throws Exception {
         byte[] encryptedBytes = Base64.getDecoder().decode(encryptedKey);
 
-        Cipher decryptCip = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        Cipher decryptCip = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
         decryptCip.init(Cipher.DECRYPT_MODE, privateKey);
         byte[] keyByte = decryptCip.doFinal(encryptedBytes);
 
