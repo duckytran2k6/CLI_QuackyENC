@@ -28,7 +28,7 @@ layer before gaining the access to the encrypted main data. An Initialization Ve
 a nonce for each encryption operation, ensures that in case of the same data is being encrypted with the same secret key will produce different
 ciphertexts each time.
 
-_## **Password-based method**_
+## _ **Password-based method**_
 This is the more simple method as you only need to come up with a password that you will share it along with the other auth info files included
 in the zip folder. The way this works is that the user enter a valid password, then upload all the text files they want to be encrypted. Then, 
 those encrypted text files, a salt file, and an IV file. A salt is a random 16-bytes generated which will be added to the password before
