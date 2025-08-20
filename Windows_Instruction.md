@@ -5,8 +5,8 @@
 ### 🔒 **Security Notice:**
 * ✅ QuackyENC is open-source — view the source code at [https://github.com/duckytran2k6/CLI_QuackyENC].
 * ✅ You can verify file integrity using the Sha-256 checksums from the release page and run the following command:
-  - Command Prompt: `CertUtil -hashfile QuackyENC-1.1.0.exe SHA256`.
-  - Powershell: `Get-FileHash QuackyENC-1.1.0.exe -Algorithm SHA256`.
+  - Command Prompt: `CertUtil -hashfile thefilename.exe SHA256`.
+  - Powershell: `Get-FileHash thefilename.exe -Algorithm SHA256`.
   - The command will output a hash code which can be used to compare.
   - If the hash code from the output does not matched with the Sha-256 checksums, please visit [SECURITY](SECURITY.md) page for more information.
 
