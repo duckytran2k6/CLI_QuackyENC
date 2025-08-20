@@ -1,0 +1,36 @@
+name: Generate SHA-256 Checksums file
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+  
+jobs:
+  checksums:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download release assets
+        uses: robinraju/release-downloader@v1.10
+        with:
+          repository: ${{ github.repository }}
+          tag: ${{ github.event.release.tag_name || github.ref_name }}
+          fileName: "*.exe,*.dmg,*.deb"
+
+      - name: Generate SHA-256 checksums
+        run: |
+          shasum -a 256 *.exe *.dmg *.deb > SHA256SUMS.txt
+          echo "Generated SHA256SUMS.txt:"
+          cat SHA256SUMS.txt
+
+      - name: Upload checksum file to release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: SHA256SUMS.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+  
