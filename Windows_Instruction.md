@@ -3,8 +3,9 @@
 ## _Please follow these steps to install and run the tool on Windows._
 
 ### 🔒 **Security Notice:**
-* ✅ QuackyENC is open-source — view the source code at [https://github.com/duckytran2k6/CLI_QuackyENC].
-* ✅ You can verify file integrity using the Sha-256 checksums from the release page and run the following command:
+* 🔓 **Open Source** — QuackyENC is fully open-source, you can view the source code at [https://github.com/duckytran2k6/CLI_QuackyENC].
+* ️🛡️ **No Extra Privileges Needed** — Running QuackyENC does not require root or administrative privileges. Adding QuackyENC to your system PATH is optional for convenience -> See the [Optional](https://github.com/duckytran2k6/CLI_QuackyENC/blob/1.1.1/Windows_Instruction.md#%EF%B8%8F-optional-add-quackyenc-to-the-system-path) section for more information.
+* 🔑 **Verify File Integrity** — Check your downloaded file against the published SHA-256 checksum and run the following command:
   - Command Prompt: `CertUtil -hashfile thefilename.exe SHA256`.
   - Powershell: `Get-FileHash thefilename.exe -Algorithm SHA256`.
   - The command will output a hash code which can be used to compare.
@@ -20,7 +21,7 @@
 - Under the **Assets** section, download the **QuackyENC-1.0.0.exe** file.
 
 ### 🖱️ **Step 2: Install the Tool**
-1. Open the folder explorer and find the **QuackyENC-1.0.0.exe** file.
+1. Open the folder explorer and find the **.exe** file.
 2. Double-click to install it.
 3. If Windows SmartScreen appears, select "Run Anyway".
 4. Once installed, check your "Program Files" folder in C drive, and you should see a folder named "QuackyENC" with an .exe file in it.

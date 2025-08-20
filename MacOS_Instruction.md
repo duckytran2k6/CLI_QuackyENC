@@ -3,11 +3,12 @@
 ## _Please follow these steps to install and run the tool on macOS._
 
 ### 🔒 **Security Notice:**
-* ✅ QuackyENC is open-source — view the source code at [https://github.com/duckytran2k6/CLI_QuackyENC].
-* ✅ You can verify file integrity using the Sha-256 checksums from the release page and run the following command:
-    - `shasum -a 256 thefilename.dmg`.
-    - The command will output a hash code which can be used to compare.
-    - If the hash code from the output does not matched with the Sha-256 checksums, please visit [SECURITY](SECURITY.md) page for more information.
+* 🔓 **Open Source** — QuackyENC is fully open-source, you can view the source code at [https://github.com/duckytran2k6/CLI_QuackyENC].
+* 🛡️ **No Extra Privileges Needed** — Running QuackyENC does not require root or administrative privileges. Adding QuackyENC to your system PATH is optional for convenience -> See the [Optional](https://github.com/duckytran2k6/CLI_QuackyENC/blob/1.1.1/MacOS_Instruction.md#%EF%B8%8F-optional-add-quackyenc-to-the-system-path) section for more information.
+* 🔑 **Verify File Integrity** — Check your downloaded file against the published SHA-256 checksum and run the following command:
+  - `shasum -a 256 thefilename.dmg`.
+  - The command will output a hash code which can be used to compare.
+  - If the hash code from the output does not matched with the Sha-256 checksums, please visit [SECURITY](SECURITY.md) page for more information.
 
 
 ### ✅ **System Requirements:**
@@ -18,7 +19,7 @@
 ### 📥 **Step 1: Download the Tool's zip folder**
 - Download the latest zip folder from the **[GitHub Releases](https://github.com/duckytran2k6/CLI_QuackyENC/releases)** page.
 - Choose the latest version.
-- Under the **Assets** section, download the **QuackyENC-1.0.0.dmg** file.
+- Under the **Assets** section, download the **.dmg** file.
 
 ### 🖱️ **Step 2: Install the Tool**
 1. Locate the **QuackyENC-1.0.0.dmg** file.
