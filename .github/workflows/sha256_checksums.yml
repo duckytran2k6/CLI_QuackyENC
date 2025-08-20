@@ -23,6 +23,7 @@ jobs:
       - name: Generate SHA-256 checksums
         run: |
           shasum -a 256 *.exe *.dmg *.deb > SHA256_Checksums.txt
+          echo "Generated SHA256_Checksums.txt:"
           cat SHA256_Checksums.txt
 
       - name: Upload checksum file to release
