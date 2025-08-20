@@ -22,14 +22,13 @@ jobs:
 
       - name: Generate SHA-256 checksums
         run: |
-          shasum -a 256 *.exe *.dmg *.deb > SHA256SUMS.txt
-          echo "Generated SHA256SUMS.txt:"
-          cat SHA256SUMS.txt
+          shasum -a 256 *.exe *.dmg *.deb > SHA256_Checksums.txt
+          cat SHA256_Checksums.txt
 
       - name: Upload checksum file to release
         uses: softprops/action-gh-release@v1
         with:
-          files: SHA256SUMS.txt
+          files: SHA256_Checksums.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
