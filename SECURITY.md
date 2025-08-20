@@ -9,5 +9,5 @@ ideally from 1-3 days.
 - Please include as much detail as possible about the current issue (i.e. command used, file involved, error logs, etc.). 
 I'll acknowledge and fix them as soon as possible. Thank you!
 
-- Current tool version: Release v1.0.0
+- Current tool version: v1.1.0
 

@@ -4,7 +4,10 @@
 
 ### 🔒 **Security Notice:**
 * ✅ QuackyENC is open-source — view the source code at [https://github.com/duckytran2k6/CLI_QuackyENC].
-* ✅ You can verify file integrity using the SHA256 checksum from the release page.
+* ✅ You can verify file integrity using the Sha-256 checksums from the release page and run the following command:
+  - `sha256sum QuackyENC-1.1.0.deb`.
+  - The command will output a hash code which can be used to compare.
+  - If the hash code from the output does not matched with the Sha-256 checksums, please visit [SECURITY](SECURITY.md) page for more information.
 
 ### ✅ **System Requirements:**
 - Ubuntu/Debian or any Debian-based distribution.

@@ -5,3 +5,4 @@
 * Improved the download service for cross-platform's compatability.
 * Updated the CLI classes to add more convenience with user's I/O.
 * Added custom displays for `--help` and `--information` commands.
+* Added Sha-256 Checksums for files' integrity verification.
