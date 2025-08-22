@@ -4,8 +4,7 @@
 on your local OS terminal. The purpose for this project is to learn the process of files encryption and combine it with 
 the CLI features, allowing the users to use the tool in a plain simple way. The reason for that is because QuackyENC focuses 
 on security, simplicity, and flexibility as the program has been modified in order to be able to run and compatible for 
-upload/download files on different OS. QuackyENC uses the secure AES algorithm with GCM mode more efficiency and RSA algorithm
-for hybrid cryptosystem, adding more layers into the authentication for more security.
+upload/download files on different OS.
 
 ## ✅ **Features:**
 ### **This is a list of features of what QuackyENC included with a short description for each of them:**
@@ -53,8 +52,8 @@ the process is finished.
 - Click [here](MacOS_Instruction.md) for more info on macOS installation.
 - Click [here](Linux_Instruction.md) for more info on Linux installation.
 
-### **_Security:_**
+### **_Extra Notices:_**
 For more information on how QuackyENC handles the cryptography for each method, see the [Internals](Internals.md) file for more technical details. If
-you are worried about the file integrity when downloading the zip folder, you can always use the SHA256 checksum file provided in the 
-same release page that will be automatically update everytime a new version of the tool is being released. If you want to report about
+you are worried about the file integrity when downloading the zip folder, you can always use the Sha-256 Checksums provided in the 
+ release page that will be automatically update everytime a new version of the tool is being released. If you want to report about
 an issue/bug or even a vulnerability, please see the [SECURITY](SECURITY.md) file for more details.

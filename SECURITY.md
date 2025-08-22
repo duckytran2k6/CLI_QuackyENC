@@ -1,13 +1,23 @@
-## ⚠️ **FOR REPORTING AN ISSUE/BUG:**
-- Please report at: vu0ng.tr4nduc@gmail.com
+# 🔐 **SECURITY POLICY**
 
-## ⚠️ **SECURITY POLICY:**
-- If you discover a vulnerability in this tool, please report it responsibly. I will do my best to respond as soon as possible,
-ideally from 1-3 days.
+## **Supported Versions**
+Currently, only the latest release of QuackyENC is supported with security patches.
+- Latest: v1.1.0
 
-## ⚠️ **DISCLOSURE:**
-- Please include as much detail as possible about the current issue (i.e. command used, file involved, error logs, etc.). 
-I'll acknowledge and fix them as soon as possible. Thank you!
+## ⚠️ **Reporting a Vulnerability**
+If you discover a security vulnerability, please report it responsibly:
+- Email: vu0ng.tr4nduc@gmail.com
+- Response time: I aim to acknowledge within 1–3 days.
 
-- Current tool version: v1.1.0
+## ⚠️ **Response Disclosure**
+- If you discover a vulnerability in this tool, please report it responsibly. As for the matter of protecting the users, 
+please do not disclose the vulnerabilities publicly until I have released a patched version.
+
+## ⚠️ **Report Format**
+For non-security bugs (e.g., crashes, incorrect behavior), please include:
+- Command(s) used.
+- File(s) involved (if possible, with safe dummy data).
+- Error logs or output.
+
+_Thank you for contributing into the security and reliability improvements of QuackyENC!_
 
