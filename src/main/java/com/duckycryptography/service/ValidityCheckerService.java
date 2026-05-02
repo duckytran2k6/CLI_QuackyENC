@@ -49,6 +49,11 @@ public class ValidityCheckerService {
     }
 
     public static boolean validPassword(char[] password) {
+        if (password == null) {
+            System.err.println("Please enter a valid password!");
+            return false;
+        }
+
         if (password.length < 8) {
             System.err.println("Password must be at least 8 characters!");
             return false;

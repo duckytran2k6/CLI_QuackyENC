@@ -14,12 +14,12 @@ import java.util.List;
 )
 
 public class EncryptWithPasswordCommand implements Runnable {
-
-    @CommandLine.Option(names = {"-pw", "--password"}, interactive = true, arity = "0..1", description = "Please enter a password with a minimum of 8 characters!")
+    @CommandLine.Parameters(index = "2", interactive = true, arity = "0..1", description = "Please enter a password with a minimum of 8 characters!")
     private char[] password;
 
     @Override
     public void run() {
+
         try {
             List<File> files = FilesService.selectMultipleFiles("Select the files you want to be encrypted!");
 
@@ -28,7 +28,6 @@ public class EncryptWithPasswordCommand implements Runnable {
             }
 
             if (!ValidityCheckerService.validPassword(password)) {
-                System.out.println("Invalid password!");
                 return;
             }
 
